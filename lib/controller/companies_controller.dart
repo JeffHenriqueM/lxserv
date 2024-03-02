@@ -1,17 +1,29 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lxserv/model/companies_model.dart';
+import 'package:flutter/foundation.dart';
 
 class CompaniesController {
   final db = FirebaseFirestore.instance;
 
-  bookSession({name, service, time}) async {
-    final docRef = db.collection('appointments').doc();
-    CompaniesModel appt = CompaniesModel(idHost: 1, hostname: "teste");
+  saveCompanie(appt, {name, service, time}) async {
+    final docRef = db.collection('companies').doc();
 
     await docRef.set(appt.toJson()).then(
-        (value) => log("Appointment booked successfully!"),
-        onError: (e) => log("Error booking appointment: $e"));
+        (value) => log("Empresa Criada com Sucesso!"),
+        onError: (e) => log("Error booking empresa: $e"));
+  }
+
+  getCompanies() async {
+    final docRef = db.collection('companies');
+
+    docRef.get().then(
+      (querySnapshot) {
+        print("Successfully completed");
+        for (var docSnapshot in querySnapshot.docs) {
+          print('${docSnapshot.id} => ${docSnapshot.data()}');
+        }
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
   }
 }

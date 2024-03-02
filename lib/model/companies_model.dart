@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CompaniesModel {
   final int idHost;
   final String hostname;
-  /* final String descricao;
-  final double so;
+  final String descricao;
+  final String so;
   final String iplan;
   final String ipwan;
   final String linkWAN;
@@ -14,13 +14,13 @@ class CompaniesModel {
   final String licenca;
   final String antivirus;
   final DateTime dtCreated;
-  final DateTime dtUpdate;
-  final DateTime dtDelet;*/
+  //late DateTime dtUpdate;
+  //late DateTime dtDelete;
 
   CompaniesModel({
     required this.idHost,
     required this.hostname,
-    /*required this.descricao,
+    required this.descricao,
     required this.so,
     required this.iplan,
     required this.ipwan,
@@ -31,32 +31,33 @@ class CompaniesModel {
     required this.licenca,
     required this.antivirus,
     required this.dtCreated,
-    required this.dtUpdate,
-    required this.dtDelet,*/
   });
 
   factory CompaniesModel.fromJson(Map<String, dynamic> json) {
-    return CompaniesModel(idHost: json['idHost'], hostname: (json['hostname']));
-    /*descricao: json['descricao'],
-        so: json['so'],
-        iplan: json['iplan'],
-        ipwan: json['ipwan'],
-        linkWAN: json['linkWAN'],
-        cpu: json['cpu'],
-        ram: json['ram'],
-        drive: json['drive'],
-        licenca: json['licenca'],
-        antivirus: json['antivirus'],
-        dtCreated: json['dtCreated'].toDate(),
-        dtUpdate: json['antivirus'],
-        dtDelet: json['dtDelet']).toDate();*/
+    return CompaniesModel(
+      idHost: json['idHost'],
+      hostname: (json['hostname']),
+      descricao: json['descricao'],
+      so: json['so'],
+      iplan: json['iplan'],
+      ipwan: json['ipwan'],
+      linkWAN: json['linkWAN'],
+      cpu: json['cpu'],
+      ram: json['ram'],
+      drive: json['drive'],
+      licenca: json['licenca'],
+      antivirus: json['antivirus'],
+      dtCreated: json['dtCreated'].toDate(),
+      //dtUpdate: json['dtUpdate'].toDate(),
+      //dtDelete: json['dtDelet'].toDate());
+    );
   }
 
   toJson() {
     return {
       'idHost': idHost,
       'hostname': hostname,
-      /*'descricao': descricao,
+      'descricao': descricao,
       'so': so,
       'iplan': iplan,
       'ipwan': ipwan,
@@ -67,8 +68,8 @@ class CompaniesModel {
       'licenca': licenca,
       'antivirus': antivirus,
       'dtCreated': Timestamp.fromDate(dtCreated),
-      'dtUpdate': Timestamp.fromDate(dtUpdate),
-      'dtDelet': Timestamp.fromDate(dtDelet),*/
+      //'dtUpdate': Timestamp.fromDate(dtUpdate),
+      //'dtDelet': Timestamp.fromDate(dtDelete),
     };
   }
 }

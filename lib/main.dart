@@ -12,7 +12,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   static const primaryColor = Colors.orange;
 
@@ -25,9 +25,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'LxServidores',
       theme: ThemeData(primarySwatch: MyApp.primaryColor),
-      initialRoute: '/',
+      initialRoute: '/companiesTable',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

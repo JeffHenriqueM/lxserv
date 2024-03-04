@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CompaniesModel {
-  final int idHost;
-  final String hostname;
-  final String descricao;
-  final String so;
-  final String iplan;
-  final String ipwan;
-  final String linkWAN;
-  final int cpu;
-  final int ram;
-  final double drive;
-  final String licenca;
-  final String antivirus;
-  final DateTime dtCreated;
+  String idHost;
+  String hostname;
+  String descricao;
+  String so;
+  String iplan;
+  String ipwan;
+  String linkWAN;
+  int cpu;
+  int ram;
+  double drive;
+  String licenca;
+  String antivirus;
+  DateTime dtCreated;
   //late DateTime dtUpdate;
   //late DateTime dtDelete;
 
@@ -33,10 +33,10 @@ class CompaniesModel {
     required this.dtCreated,
   });
 
-  factory CompaniesModel.fromJson(Map<String, dynamic> json) {
+  fromJson(Map<String, dynamic> json) {
     return CompaniesModel(
       idHost: json['idHost'],
-      hostname: (json['hostname']),
+      hostname: json['hostname'],
       descricao: json['descricao'],
       so: json['so'],
       iplan: json['iplan'],
@@ -47,7 +47,7 @@ class CompaniesModel {
       drive: json['drive'],
       licenca: json['licenca'],
       antivirus: json['antivirus'],
-      dtCreated: json['dtCreated'].toDate(),
+      dtCreated: DateTime.now(),
       //dtUpdate: json['dtUpdate'].toDate(),
       //dtDelete: json['dtDelet'].toDate());
     );

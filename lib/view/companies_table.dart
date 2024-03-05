@@ -29,68 +29,75 @@ class _DataTableFlutterState extends State<DataTableFlutter> {
       appBar: AppBar(
         title: const Text('Listagem de Hosts e Vms'),
       ),
-      body: SfDataGrid(source: _companiesDataSource, columns: <GridColumn>[
-        GridColumn(
-            columnName: 'idHost',
-            label: const Text(
-              'Virtualizador',
-            )),
-        GridColumn(
-            columnName: 'hostname',
-            label: const Text(
-              'HOSTNAME',
-            )),
-        GridColumn(
-            columnName: 'iplan',
-            label: const Text(
-              'IP - LAN',
-            )),
-        GridColumn(
-            columnName: 'ipwan',
-            label: const Text(
-              'IP - WAN',
-            )),
-        GridColumn(
-            columnName: 'linkWAN',
-            label: const Text(
-              'Link WAN',
-            )),
-        GridColumn(
-            columnName: 'descricao',
-            label: const Text(
-              'Descrição',
-            )),
-        GridColumn(
-            columnName: 'CPU',
-            label: const Text(
-              'CPU',
-            )),
-        GridColumn(
-            columnName: 'ram',
-            label: const Text(
-              'RAM',
-            )),
-        GridColumn(
-            columnName: 'drive',
-            label: const Text(
-              'Drive',
-            )),
-        GridColumn(
-            columnName: 'so',
-            label: const Text(
-              'Sistema Operacional',
-            )),
-        GridColumn(
-            columnName: 'Licença',
-            label: const Text(
-              'licenca',
-            )),
-        GridColumn(
-            columnName: 'antivirus',
-            label: const Text(
-              'Antivirus',
-            )),
-      ]),
+      body: SfDataGrid(
+          source: _companiesDataSource,
+          columnWidthMode: ColumnWidthMode.auto,
+          allowColumnsResizing: true,
+          allowColumnsDragging: true,
+          allowFiltering: true,
+          allowSorting: true,
+          columns: <GridColumn>[
+            GridColumn(
+                columnName: 'idHost',
+                label: const Text(
+                  'Virtualizador',
+                )),
+            GridColumn(
+                columnName: 'hostname',
+                label: const Text(
+                  'HOSTNAME',
+                )),
+            GridColumn(
+                columnName: 'iplan',
+                label: const Text(
+                  'IP - LAN',
+                )),
+            GridColumn(
+                columnName: 'ipwan',
+                label: const Text(
+                  'IP - WAN',
+                )),
+            GridColumn(
+                columnName: 'linkWAN',
+                label: const Text(
+                  'Link WAN',
+                )),
+            GridColumn(
+                columnName: 'descricao',
+                label: const Text(
+                  'Descrição',
+                )),
+            GridColumn(
+                columnName: 'CPU',
+                label: const Text(
+                  'CPU',
+                )),
+            GridColumn(
+                columnName: 'ram',
+                label: const Text(
+                  'RAM',
+                )),
+            GridColumn(
+                columnName: 'drive',
+                label: const Text(
+                  'Drive',
+                )),
+            GridColumn(
+                columnName: 'so',
+                label: const Text(
+                  'Sistema Operacional',
+                )),
+            GridColumn(
+                columnName: 'Licença',
+                label: const Text(
+                  'licenca',
+                )),
+            GridColumn(
+                columnName: 'antivirus',
+                label: const Text(
+                  'Antivirus',
+                )),
+          ]),
     );
   }
 
@@ -139,9 +146,7 @@ class CompaniesDataSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
-      return Container(
-        child: Text(dataGridCell.value.toString()),
-      );
+      return Text(dataGridCell.value.toString());
     }).toList());
   }
 }

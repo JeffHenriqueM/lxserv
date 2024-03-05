@@ -14,7 +14,8 @@ class _DataTableFlutterState extends State<DataTableFlutter> {
   CompaniesController controller = CompaniesController();
   List<CompaniesModel> companies = [];
   late CompaniesModel model;
-  late CompaniesDataSource _companiesDataSource;
+  late CompaniesDataSource _companiesDataSource =
+      CompaniesDataSource(companies);
 
   @override
   void initState() {
@@ -25,73 +26,72 @@ class _DataTableFlutterState extends State<DataTableFlutter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Listagem de Hosts e Vms'),
-        ),
-        body: Expanded(
-          child: SfDataGrid(source: _companiesDataSource, columns: <GridColumn>[
-            GridColumn(
-                columnName: 'idHost',
-                label: const Text(
-                  'Virtualizador',
-                )),
-            GridColumn(
-                columnName: 'hostname',
-                label: const Text(
-                  'HOSTNAME',
-                )),
-            GridColumn(
-                columnName: 'iplan',
-                label: const Text(
-                  'IP - LAN',
-                )),
-            GridColumn(
-                columnName: 'ipwan',
-                label: const Text(
-                  'IP - WAN',
-                )),
-            GridColumn(
-                columnName: 'linkWAN',
-                label: const Text(
-                  'Link WAN',
-                )),
-            GridColumn(
-                columnName: 'descricao',
-                label: const Text(
-                  'Descrição',
-                )),
-            GridColumn(
-                columnName: 'CPU',
-                label: const Text(
-                  'CPU',
-                )),
-            GridColumn(
-                columnName: 'ram',
-                label: const Text(
-                  'RAM',
-                )),
-            GridColumn(
-                columnName: 'drive',
-                label: const Text(
-                  'Drive',
-                )),
-            GridColumn(
-                columnName: 'so',
-                label: const Text(
-                  'Sistema Operacional',
-                )),
-            GridColumn(
-                columnName: 'Licença',
-                label: const Text(
-                  'licenca',
-                )),
-            GridColumn(
-                columnName: 'antivirus',
-                label: const Text(
-                  'Antivirus',
-                )),
-          ]),
-        ));
+      appBar: AppBar(
+        title: const Text('Listagem de Hosts e Vms'),
+      ),
+      body: SfDataGrid(source: _companiesDataSource, columns: <GridColumn>[
+        GridColumn(
+            columnName: 'idHost',
+            label: const Text(
+              'Virtualizador',
+            )),
+        GridColumn(
+            columnName: 'hostname',
+            label: const Text(
+              'HOSTNAME',
+            )),
+        GridColumn(
+            columnName: 'iplan',
+            label: const Text(
+              'IP - LAN',
+            )),
+        GridColumn(
+            columnName: 'ipwan',
+            label: const Text(
+              'IP - WAN',
+            )),
+        GridColumn(
+            columnName: 'linkWAN',
+            label: const Text(
+              'Link WAN',
+            )),
+        GridColumn(
+            columnName: 'descricao',
+            label: const Text(
+              'Descrição',
+            )),
+        GridColumn(
+            columnName: 'CPU',
+            label: const Text(
+              'CPU',
+            )),
+        GridColumn(
+            columnName: 'ram',
+            label: const Text(
+              'RAM',
+            )),
+        GridColumn(
+            columnName: 'drive',
+            label: const Text(
+              'Drive',
+            )),
+        GridColumn(
+            columnName: 'so',
+            label: const Text(
+              'Sistema Operacional',
+            )),
+        GridColumn(
+            columnName: 'Licença',
+            label: const Text(
+              'licenca',
+            )),
+        GridColumn(
+            columnName: 'antivirus',
+            label: const Text(
+              'Antivirus',
+            )),
+      ]),
+    );
   }
 
   void buscarDados() async {

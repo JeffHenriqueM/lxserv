@@ -11,7 +11,8 @@ dependencies:
   firebase_core: ^2.25.4
   flutter:
     sdk: flutter
-  syncfusion_flutter_datagrid: ^24.2.7
+  flutter_mobx: ^2.2.0+2
+  syncfusion_flutter_datagrid: ^24.2.8
 
 dev_dependencies:
   flutter_test:

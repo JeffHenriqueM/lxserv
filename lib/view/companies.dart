@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lxserv/controller/companies_controller.dart';
 import 'package:lxserv/model/companies_model.dart';
 
@@ -10,21 +11,27 @@ class Companies extends StatefulWidget {
 }
 
 class _CompaniesState extends State<Companies> {
-  CompaniesController controller = CompaniesController();
-  CompaniesModel companiesModel = CompaniesModel(
-      idHost: "1",
-      hostname: "SVPMANASTACIO01",
-      descricao: "Banco",
-      so: "WS19ST",
-      iplan: "172.30.5.11",
-      ipwan: "201.56.59.38",
-      linkWAN: "201.56.59.38:53011",
-      cpu: 2,
-      ram: 8,
-      drive: 100,
-      licenca: "KMS",
-      antivirus: "OK",
-      dtCreated: DateTime.now());
+  CompaniesController companiesController = CompaniesController();
+  TextEditingController idHost = TextEditingController();
+  TextEditingController hostname = TextEditingController();
+  TextEditingController descricao = TextEditingController();
+  TextEditingController so = TextEditingController();
+  TextEditingController iplan = TextEditingController();
+  TextEditingController ipwan = TextEditingController();
+  TextEditingController linkWAN = TextEditingController();
+  TextEditingController cpu = TextEditingController();
+  TextEditingController ram = TextEditingController();
+  TextEditingController drive = TextEditingController();
+  TextEditingController licenca = TextEditingController();
+  TextEditingController antivirus = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  List<String> virtualizadores = [
+    'SFPROX0110',
+    'SFPROX0220',
+    'SFPROX0330',
+    'SFPROX0440',
+    'SFPROX0550'
+  ];
 
   @override
   void initState() {
@@ -34,35 +41,75 @@ class _CompaniesState extends State<Companies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Criar empresa"),
-        backgroundColor: Colors.grey,
-      ),
-      body: Column(
-        children: [
-          TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.hovered))
-                      return Colors.blue.withOpacity(0.04);
-                    if (states.contains(MaterialState.focused) ||
-                        states.contains(MaterialState.pressed))
-                      return Colors.blue.withOpacity(0.12);
-                    return null; // Defer to the widget's default.
-                  },
-                ),
+        appBar: AppBar(
+          title: const Text("Criar empresa"),
+          backgroundColor: Colors.grey,
+        ),
+        body: Center(
+            child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  WidgetRow(controller: idHost, title: "Virtualizador"),
+                  WidgetRow(controller: hostname, title: "HOSTNAME"),
+                  WidgetRow(controller: iplan, title: "IP - LAN"),
+                ],
               ),
-              onPressed: () {
-                for (var element in jsonCompanies) {
-                  controller.saveCompanie(companiesModel.fromJson(element));
-                }
-              },
-              child: const Text('Salvar')),
-        ],
-      ),
-    );
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  WidgetRow(controller: ipwan, title: "IP - WAN"),
+                  WidgetRow(controller: linkWAN, title: "Link WAN"),
+                  WidgetRow(controller: descricao, title: "Descrição"),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  WidgetRowNumber(controller: cpu, title: "CPU"),
+                  WidgetRowNumber(controller: ram, title: "RAM"),
+                  WidgetRowNumber(controller: drive, title: "Drive"),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  WidgetRow(controller: so, title: "SO"),
+                  WidgetRow(controller: licenca, title: "Licença"),
+                  WidgetRow(controller: antivirus, title: "Antivirus"),
+                ],
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    int cpus = int.parse(cpu.text);
+                    int rams = int.parse(ram.text);
+                    double drives = double.parse(drive.text);
+
+                    CompaniesModel companiesModel = CompaniesModel(
+                        idHost: idHost.text,
+                        hostname: hostname.text,
+                        descricao: descricao.text,
+                        so: so.text,
+                        iplan: iplan.text,
+                        ipwan: ipwan.text,
+                        linkWAN: linkWAN.text,
+                        cpu: cpus,
+                        ram: rams,
+                        drive: drives,
+                        licenca: licenca.text,
+                        antivirus: antivirus.text,
+                        dtCreated: DateTime.now());
+                    companiesController.saveCompanie(companiesModel);
+                  },
+                  child: const Text("Salvar"))
+            ],
+          ),
+        )));
   }
 
   var jsonCompanies = [
@@ -487,4 +534,60 @@ class _CompaniesState extends State<Companies> {
       "antivirus": "NA"
     }
   ];
+}
+
+class WidgetRow extends StatelessWidget {
+  const WidgetRow({
+    super.key,
+    required this.controller,
+    required this.title,
+  });
+
+  final TextEditingController controller;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(title),
+        SizedBox(
+          width: 300,
+          child: TextFormField(
+            controller: controller,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class WidgetRowNumber extends StatelessWidget {
+  const WidgetRowNumber({
+    super.key,
+    required this.controller,
+    required this.title,
+  });
+
+  final TextEditingController controller;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(title),
+        SizedBox(
+          width: 300,
+          child: TextField(
+            keyboardType: TextInputType.number,
+            controller: controller,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ], // Only numbers can be entered
+          ),
+        ),
+      ],
+    );
+  }
 }

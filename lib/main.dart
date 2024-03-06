@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
          ThemeMode.dark for dark theme
       */
 
-      initialRoute: '/companiesTable',
+      initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

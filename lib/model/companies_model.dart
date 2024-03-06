@@ -33,27 +33,27 @@ class CompaniesModel {
     required this.dtCreated,
   });
 
-  fromJson(Map<String, dynamic> json) {
+  fromMap(Map<String, dynamic> map) {
     return CompaniesModel(
-      idHost: json['idHost'],
-      hostname: json['hostname'],
-      descricao: json['descricao'],
-      so: json['so'],
-      iplan: json['iplan'],
-      ipwan: json['ipwan'],
-      linkWAN: json['linkWAN'],
-      cpu: json['cpu'],
-      ram: json['ram'],
-      drive: json['drive'],
-      licenca: json['licenca'],
-      antivirus: json['antivirus'],
+      idHost: map['idHost'],
+      hostname: map['hostname'],
+      descricao: map['descricao'],
+      so: map['so'],
+      iplan: map['iplan'],
+      ipwan: map['ipwan'],
+      linkWAN: map['linkWAN'],
+      cpu: map['cpu'],
+      ram: map['ram'],
+      drive: map['drive'],
+      licenca: map['licenca'],
+      antivirus: map['antivirus'],
       dtCreated: DateTime.now(),
-      //dtUpdate: json['dtUpdate'].toDate(),
-      //dtDelete: json['dtDelet'].toDate());
+      //dtUpdate: map['dtUpdate'].toDate(),
+      //dtDelete: map['dtDelet'].toDate());
     );
   }
 
-  toJson() {
+  toMap() {
     return {
       'idHost': idHost,
       'hostname': hostname,

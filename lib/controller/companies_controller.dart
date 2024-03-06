@@ -8,7 +8,7 @@ class CompaniesController {
   saveCompanie(appt, {name, service, time}) async {
     final docRef = db.collection('companies').doc();
 
-    await docRef.set(appt.toJson()).then(
+    await docRef.set(appt.toMap()).then(
         (value) => log("Empresa Criada com Sucesso!"),
         onError: (e) => log("Erro ao criar empresa: $e"));
   }

@@ -24,6 +24,7 @@ class _CompaniesState extends State<Companies> {
   TextEditingController drive = TextEditingController();
   TextEditingController licenca = TextEditingController();
   TextEditingController antivirus = TextEditingController();
+  late CompaniesModel companiesModel;
   final _formKey = GlobalKey<FormState>();
   List<String> virtualizadores = [
     'SFPROX0110',
@@ -43,7 +44,13 @@ class _CompaniesState extends State<Companies> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Criar empresa"),
-          backgroundColor: Colors.grey,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/companiesTable');
+                },
+                icon: const Icon(Icons.car_repair))
+          ],
         ),
         body: Center(
             child: Form(
@@ -105,6 +112,25 @@ class _CompaniesState extends State<Companies> {
                         antivirus: antivirus.text,
                         dtCreated: DateTime.now());
                     companiesController.saveCompanie(companiesModel);
+                    Navigator.pushNamed(context, '/companiesTable');
+
+                    /*for (var element in jsonCompanies) { -- Adicionar tudo vindo de um json
+                      companiesModel = CompaniesModel(
+                          idHost: element['idHost'].toString(),
+                          hostname: element['hostname'].toString(),
+                          descricao: element['descricao'].toString(),
+                          so: element['so'].toString(),
+                          iplan: element['iplan'].toString(),
+                          ipwan: element['ipwan'].toString(),
+                          linkWAN: element['linkWAN'].toString(),
+                          cpu: int.parse(element['cpu'].toString()),
+                          ram: int.parse(element['ram'].toString()),
+                          drive: double.parse(element['drive'].toString()),
+                          licenca: element['licenca'].toString(),
+                          antivirus: element['antivirus'].toString(),
+                          dtCreated: DateTime.now());
+                      companiesController.saveCompanie(companiesModel);
+                    }*/
                   },
                   child: const Text("Salvar"))
             ],

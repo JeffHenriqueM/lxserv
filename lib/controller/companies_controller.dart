@@ -7,7 +7,6 @@ class CompaniesController {
 
   saveCompanie(appt, {name, service, time}) async {
     final docRef = db.collection('companies').doc();
-
     await docRef.set(appt.toMap()).then(
         (value) => log("Empresa Criada com Sucesso!"),
         onError: (e) => log("Erro ao criar empresa: $e"));
@@ -35,11 +34,7 @@ class CompaniesController {
           antivirus: doc.data()['antivirus'],
           dtCreated: DateTime.now(),
         );
-        try {
-          companies.add(model);
-        } catch (e) {
-          print(e);
-        }
+        companies.add(model);
       }
     });
 

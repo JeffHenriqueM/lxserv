@@ -127,14 +127,17 @@ class CompaniesDataSource extends DataGridSource {
               DataGridCell<String>(
                   columnName: 'descricao', value: dataGridRow.descricao),
               DataGridCell<int>(columnName: 'cpu', value: dataGridRow.cpu),
-              DataGridCell<int>(columnName: 'ram', value: dataGridRow.ram),
-              DataGridCell<double>(
-                  columnName: 'drive', value: dataGridRow.drive),
+              DataGridCell<String>(
+                  columnName: 'ram', value: "${dataGridRow.ram}GB"),
+              DataGridCell<String>(
+                  columnName: 'drive', value: "${dataGridRow.drive}GB"),
               DataGridCell<String>(columnName: 'so', value: dataGridRow.so),
               DataGridCell<String>(
                   columnName: 'licenca', value: dataGridRow.licenca),
               DataGridCell<String>(
-                  columnName: 'antivirus', value: dataGridRow.antivirus),
+                columnName: 'antivirus',
+                value: dataGridRow.antivirus,
+              ),
             ]))
         .toList();
   }

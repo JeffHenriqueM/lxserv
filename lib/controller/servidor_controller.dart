@@ -1,28 +1,31 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lxserv/model/companies_model.dart';
+import 'package:lxserv/model/servidor_model.dart';
 
-class CompaniesController {
+class ServidorController {
   final db = FirebaseFirestore.instance;
 
   saveCompanie(appt, {name, service, time}) async {
-    final docRef = db.collection('companies').doc();
+    final docRef = db.collection('servidores').doc();
     await docRef.set(appt.toMap()).then(
         (value) => log("Empresa Criada com Sucesso!"),
         onError: (e) => log("Erro ao criar empresa: $e"));
   }
 
-  getCompanies() async {
-    late CompaniesModel model;
-    late List<CompaniesModel> companies = [];
-    final docRef = db.collection('companies').get();
+  getServidores() async {
+    late ServidorModel model;
+    late List<ServidorModel> servidores = [];
+    final docRef = db.collection('servidores').get();
 
     await docRef.then((event) {
       for (var doc in event.docs) {
-        model = CompaniesModel(
+        model = ServidorModel(
+          idCompany: doc.data()['idCompany'],
           idHost: doc.data()['idHost'],
+          host: doc.data()['host'],
           hostname: doc.data()['hostname'],
           descricao: doc.data()['descricao'],
+          status: doc.data()['status'],
           so: doc.data()['so'],
           iplan: doc.data()['iplan'],
           ipwan: doc.data()['ipwan'],
@@ -31,13 +34,15 @@ class CompaniesController {
           ram: doc.data()['ram'],
           drive: doc.data()['drive'],
           licenca: doc.data()['licenca'],
+          acessoExterno: doc.data()['acessoExterno'],
           antivirus: doc.data()['antivirus'],
+          backup: doc.data()['backup'],
           dtCreated: DateTime.now(),
         );
-        companies.add(model);
+        servidores.add(model);
       }
     });
 
-    return companies;
+    return servidores;
   }
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lxserv/controller/companies_controller.dart';
-import 'package:lxserv/model/companies_model.dart';
+import 'package:lxserv/controller/servidor_controller.dart';
+import 'package:lxserv/model/servidor_model.dart';
 
-class Companies extends StatefulWidget {
-  const Companies({super.key});
+class CreateServidor extends StatefulWidget {
+  const CreateServidor({super.key});
 
   @override
-  State<Companies> createState() => _CompaniesState();
+  State<CreateServidor> createState() => _CreateServidorState();
 }
 
-class _CompaniesState extends State<Companies> {
-  CompaniesController companiesController = CompaniesController();
+class _CreateServidorState extends State<CreateServidor> {
+  ServidorController servidorController = ServidorController();
   TextEditingController idHost = TextEditingController();
   TextEditingController hostname = TextEditingController();
   TextEditingController descricao = TextEditingController();
@@ -22,9 +22,10 @@ class _CompaniesState extends State<Companies> {
   TextEditingController cpu = TextEditingController();
   TextEditingController ram = TextEditingController();
   TextEditingController drive = TextEditingController();
+  TextEditingController acessoExterno = TextEditingController();
   TextEditingController licenca = TextEditingController();
   TextEditingController antivirus = TextEditingController();
-  late CompaniesModel companiesModel;
+  late ServidorModel servidorModel;
   final _formKey = GlobalKey<FormState>();
   List<String> virtualizadores = [
     'SFPROX0110',
@@ -43,13 +44,15 @@ class _CompaniesState extends State<Companies> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text("Criar empresa"),
+          titleTextStyle: const TextStyle(color: Colors.blue),
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/companiesTable');
+                  Navigator.pushNamed(context, '/servidores');
                 },
-                icon: const Icon(Icons.car_repair))
+                icon: const Icon(Icons.table_rows))
           ],
         ),
         body: Center(
@@ -86,21 +89,39 @@ class _CompaniesState extends State<Companies> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
+                  WidgetRow(controller: acessoExterno, title: "Acesso Externo"),
                   WidgetRow(controller: so, title: "SO"),
                   WidgetRow(controller: licenca, title: "Licença"),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
                   WidgetRow(controller: antivirus, title: "Antivirus"),
                 ],
               ),
-              ElevatedButton(
+              SizedBox(
+                width: 100,
+                height: 100,
+                child: ElevatedButton(
                   onPressed: () {
                     int cpus = int.parse(cpu.text);
                     int rams = int.parse(ram.text);
                     double drives = double.parse(drive.text);
 
-                    CompaniesModel companiesModel = CompaniesModel(
+                    //Resolver de outra maneira
+                    String cnpj = "13505252000114";
+                    bool host = false;
+                    String status = "Active";
+                    String backup = "Acronis/Bareos";
+
+                    ServidorModel servidorModel = ServidorModel(
+                        idCompany: cnpj,
                         idHost: idHost.text,
+                        host: host,
                         hostname: hostname.text,
                         descricao: descricao.text,
+                        status: status,
                         so: so.text,
                         iplan: iplan.text,
                         ipwan: ipwan.text,
@@ -108,31 +129,38 @@ class _CompaniesState extends State<Companies> {
                         cpu: cpus,
                         ram: rams,
                         drive: drives,
+                        acessoExterno: acessoExterno.text,
                         licenca: licenca.text,
                         antivirus: antivirus.text,
+                        backup: backup,
                         dtCreated: DateTime.now());
-                    companiesController.saveCompanie(companiesModel);
-                    Navigator.pushNamed(context, '/companiesTable');
+                    servidorController.saveCompanie(servidorModel);
+                    Navigator.pushNamed(context, '/servidores');
 
                     /*for (var element in jsonCompanies) { -- Adicionar tudo vindo de um json
-                      companiesModel = CompaniesModel(
-                          idHost: element['idHost'].toString(),
-                          hostname: element['hostname'].toString(),
-                          descricao: element['descricao'].toString(),
-                          so: element['so'].toString(),
-                          iplan: element['iplan'].toString(),
-                          ipwan: element['ipwan'].toString(),
-                          linkWAN: element['linkWAN'].toString(),
-                          cpu: int.parse(element['cpu'].toString()),
-                          ram: int.parse(element['ram'].toString()),
-                          drive: double.parse(element['drive'].toString()),
-                          licenca: element['licenca'].toString(),
-                          antivirus: element['antivirus'].toString(),
-                          dtCreated: DateTime.now());
-                      companiesController.saveCompanie(companiesModel);
-                    }*/
+                        servidorModel = ServidorModel(
+                            idHost: element['idHost'].toString(),
+                            hostname: element['hostname'].toString(),
+                            descricao: element['descricao'].toString(),
+                            so: element['so'].toString(),
+                            iplan: element['iplan'].toString(),
+                            ipwan: element['ipwan'].toString(),
+                            linkWAN: element['linkWAN'].toString(),
+                            cpu: int.parse(element['cpu'].toString()),
+                            ram: int.parse(element['ram'].toString()),
+                            drive: double.parse(element['drive'].toString()),
+                            licenca: element['licenca'].toString(),
+                            antivirus: element['antivirus'].toString(),
+                            dtCreated: DateTime.now());
+                        servidorController.saveCompanie(servidorModel);
+                      }*/
                   },
-                  child: const Text("Salvar"))
+                  child: const Text(
+                    "Salvar",
+                    style: TextStyle(color: Colors.green),
+                  ),
+                ),
+              )
             ],
           ),
         )));
@@ -578,7 +606,7 @@ class WidgetRow extends StatelessWidget {
       children: [
         Text(title),
         SizedBox(
-          width: 300,
+          width: 200,
           child: TextFormField(
             controller: controller,
           ),
@@ -604,7 +632,7 @@ class WidgetRowNumber extends StatelessWidget {
       children: [
         Text(title),
         SizedBox(
-          width: 300,
+          width: 200,
           child: TextField(
             keyboardType: TextInputType.number,
             controller: controller,

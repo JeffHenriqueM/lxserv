@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-class CompaniesModel {
+class ServidorModel {
+  String idCompany;
   String idHost;
+  bool host;
   String hostname;
   String descricao;
+  String status;
   String so;
   String iplan;
   String ipwan;
@@ -11,16 +12,21 @@ class CompaniesModel {
   int cpu;
   int ram;
   double drive;
+  String acessoExterno;
   String licenca;
   String antivirus;
+  String backup;
   DateTime dtCreated;
   //late DateTime dtUpdate;
   //late DateTime dtDelete;
 
-  CompaniesModel({
+  ServidorModel({
+    required this.idCompany,
     required this.idHost,
+    required this.host,
     required this.hostname,
     required this.descricao,
+    required this.status,
     required this.so,
     required this.iplan,
     required this.ipwan,
@@ -28,16 +34,21 @@ class CompaniesModel {
     required this.cpu,
     required this.ram,
     required this.drive,
+    required this.acessoExterno,
     required this.licenca,
     required this.antivirus,
+    required this.backup,
     required this.dtCreated,
   });
 
   fromMap(Map<String, dynamic> map) {
-    return CompaniesModel(
+    return ServidorModel(
+      idCompany: map['idCompany'],
       idHost: map['idHost'],
+      host: map['host'],
       hostname: map['hostname'],
       descricao: map['descricao'],
+      status: map['status'],
       so: map['so'],
       iplan: map['iplan'],
       ipwan: map['ipwan'],
@@ -45,8 +56,10 @@ class CompaniesModel {
       cpu: map['cpu'],
       ram: map['ram'],
       drive: map['drive'],
+      acessoExterno: map['acessoExterno'],
       licenca: map['licenca'],
       antivirus: map['antivirus'],
+      backup: map['backup'],
       dtCreated: DateTime.now(),
       //dtUpdate: map['dtUpdate'].toDate(),
       //dtDelete: map['dtDelet'].toDate());
@@ -55,9 +68,12 @@ class CompaniesModel {
 
   toMap() {
     return {
+      'idCompany': idCompany,
       'idHost': idHost,
+      'host': host,
       'hostname': hostname,
       'descricao': descricao,
+      'status': status,
       'so': so,
       'iplan': iplan,
       'ipwan': ipwan,
@@ -65,9 +81,11 @@ class CompaniesModel {
       'cpu': cpu,
       'ram': ram,
       'drive': drive,
+      'acessoExterno': acessoExterno,
       'licenca': licenca,
       'antivirus': antivirus,
-      'dtCreated': Timestamp.fromDate(dtCreated),
+      'backup': backup,
+      'dtCreated': dtCreated,
       //'dtUpdate': Timestamp.fromDate(dtUpdate),
       //'dtDelet': Timestamp.fromDate(dtDelete),
     };

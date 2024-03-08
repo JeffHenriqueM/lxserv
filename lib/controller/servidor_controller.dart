@@ -3,12 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lxserv/model/servidor_model.dart';
 
 class ServidorController {
-  final db = FirebaseFirestore.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   saveCompanie(appt, {name, service, time}) async {
     final docRef = db.collection('servidores').doc();
     await docRef.set(appt.toMap()).then(
-        (value) => log("Empresa Criada com Sucesso!"),
+        (value) => log("Servidor Criada com Sucesso!"),
         onError: (e) => log("Erro ao criar empresa: $e"));
   }
 

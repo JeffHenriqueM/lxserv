@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/servidor_model.dart';
+import 'package:lxserv/widgets/widgetRowText.dart';
 
 class CreateServidor extends StatefulWidget {
   const CreateServidor({super.key});
@@ -45,7 +46,7 @@ class _CreateServidorState extends State<CreateServidor> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Criar empresa"),
+          title: const Text("Cadastrar Servidor"),
           titleTextStyle: const TextStyle(color: Colors.blue),
           actions: [
             IconButton(
@@ -65,17 +66,17 @@ class _CreateServidorState extends State<CreateServidor> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetRow(controller: idHost, title: "Virtualizador"),
-                  WidgetRow(controller: hostname, title: "HOSTNAME"),
-                  WidgetRow(controller: iplan, title: "IP - LAN"),
+                  WidgetRowText(controller: idHost, title: "Virtualizador"),
+                  WidgetRowText(controller: hostname, title: "HOSTNAME"),
+                  WidgetRowText(controller: iplan, title: "IP - LAN"),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetRow(controller: ipwan, title: "IP - WAN"),
-                  WidgetRow(controller: linkWAN, title: "Link WAN"),
-                  WidgetRow(controller: descricao, title: "Descrição"),
+                  WidgetRowText(controller: ipwan, title: "IP - WAN"),
+                  WidgetRowText(controller: linkWAN, title: "Link WAN"),
+                  WidgetRowText(controller: descricao, title: "Descrição"),
                 ],
               ),
               Row(
@@ -89,15 +90,16 @@ class _CreateServidorState extends State<CreateServidor> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetRow(controller: acessoExterno, title: "Acesso Externo"),
-                  WidgetRow(controller: so, title: "SO"),
-                  WidgetRow(controller: licenca, title: "Licença"),
+                  WidgetRowText(
+                      controller: acessoExterno, title: "Acesso Externo"),
+                  WidgetRowText(controller: so, title: "SO"),
+                  WidgetRowText(controller: licenca, title: "Licença"),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetRow(controller: antivirus, title: "Antivirus"),
+                  WidgetRowText(controller: antivirus, title: "Antivirus"),
                 ],
               ),
               SizedBox(
@@ -588,60 +590,4 @@ class _CreateServidorState extends State<CreateServidor> {
       "antivirus": "NA"
     }
   ];
-}
-
-class WidgetRow extends StatelessWidget {
-  const WidgetRow({
-    super.key,
-    required this.controller,
-    required this.title,
-  });
-
-  final TextEditingController controller;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(title),
-        SizedBox(
-          width: 200,
-          child: TextFormField(
-            controller: controller,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class WidgetRowNumber extends StatelessWidget {
-  const WidgetRowNumber({
-    super.key,
-    required this.controller,
-    required this.title,
-  });
-
-  final TextEditingController controller;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(title),
-        SizedBox(
-          width: 200,
-          child: TextField(
-            keyboardType: TextInputType.number,
-            controller: controller,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
-            ], // Only numbers can be entered
-          ),
-        ),
-      ],
-    );
-  }
 }

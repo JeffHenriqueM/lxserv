@@ -51,9 +51,14 @@ class _CreateServidorState extends State<CreateServidor> {
           actions: [
             IconButton(
                 onPressed: () {
+                  Navigator.pushNamed(context, '/createEmpresa');
+                },
+                icon: const Icon(Icons.computer_sharp)),
+            IconButton(
+                onPressed: () {
                   Navigator.pushNamed(context, '/servidores');
                 },
-                icon: const Icon(Icons.table_rows))
+                icon: const Icon(Icons.table_rows)),
           ],
         ),
         body: Center(

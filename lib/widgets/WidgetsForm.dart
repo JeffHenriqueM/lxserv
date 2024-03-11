@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -46,7 +47,6 @@ class WidgetRowCnpj extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(title),
         SizedBox(
           width: 200,
           child: TextFormField(

@@ -43,7 +43,7 @@ class ServidorModel {
 
   fromMap(Map<String, dynamic> map) {
     return ServidorModel(
-      idCompany: map['idCompany'],
+      idCompany: map['idCompany'].replaceAll(RegExp(r'[^\w\s]+'), ''),
       idHost: map['idHost'],
       host: map['host'],
       hostname: map['hostname'],
@@ -68,7 +68,7 @@ class ServidorModel {
 
   toMap() {
     return {
-      'idCompany': idCompany,
+      'idCompany': idCompany.replaceAll(RegExp(r'[^\w\s]+'), ''),
       'idHost': idHost,
       'host': host,
       'hostname': hostname,

@@ -6,6 +6,7 @@ class EmpresaModel {
   late String contato;
   late String responsavel;
   late String img;
+  late bool filial;
   late DateTime dtCreated;
 
   EmpresaModel({
@@ -16,17 +17,20 @@ class EmpresaModel {
     required this.contato,
     required this.responsavel,
     required this.img,
+    required this.filial,
     required this.dtCreated,
   });
 
   toMap() {
     return {
-      'cnpj': cnpj,
+      'cnpj': cnpj.replaceAll(RegExp(r'[^\w\s]+'), ''),
       'razaoSocial': razaoSocial,
       'nomeFantasia': nomeFantasia,
       'endereco': endereco,
       'contato': contato,
       'responsavel': responsavel,
+      'img': img,
+      'filial': filial,
       'dtCreated': dtCreated,
     };
   }

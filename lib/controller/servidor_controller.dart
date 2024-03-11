@@ -12,6 +12,41 @@ class ServidorController {
         onError: (e) => log("Erro ao criar empresa: $e"));
   }
 
+  getServidoresCnpj(cnpj) async {
+    late ServidorModel model;
+    late List<ServidorModel> servidores = [];
+    final docRef =
+        db.collection('servidores').where("idCompany", isEqualTo: cnpj).get();
+
+    await docRef.then((event) {
+      for (var doc in event.docs) {
+        model = ServidorModel(
+          idCompany: doc.data()['idCompany'],
+          idHost: doc.data()['idHost'],
+          host: doc.data()['host'],
+          hostname: doc.data()['hostname'],
+          descricao: doc.data()['descricao'],
+          status: doc.data()['status'],
+          so: doc.data()['so'],
+          iplan: doc.data()['iplan'],
+          ipwan: doc.data()['ipwan'],
+          linkWAN: doc.data()['linkWAN'],
+          cpu: doc.data()['cpu'],
+          ram: doc.data()['ram'],
+          drive: doc.data()['drive'],
+          licenca: doc.data()['licenca'],
+          acessoExterno: doc.data()['acessoExterno'],
+          antivirus: doc.data()['antivirus'],
+          backup: doc.data()['backup'],
+          dtCreated: DateTime.now(),
+        );
+        servidores.add(model);
+      }
+    });
+
+    return servidores;
+  }
+
   getServidores() async {
     late ServidorModel model;
     late List<ServidorModel> servidores = [];
@@ -37,7 +72,7 @@ class ServidorController {
           acessoExterno: doc.data()['acessoExterno'],
           antivirus: doc.data()['antivirus'],
           backup: doc.data()['backup'],
-          dtCreated: DateTime.now(),
+          dtCreated: doc.data()['dtCreated'],
         );
         servidores.add(model);
       }

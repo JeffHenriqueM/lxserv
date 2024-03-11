@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
-import 'package:lxserv/widgets/widgetRowText.dart';
+import 'package:lxserv/widgets/WidgetsForm.dart';
 
 class CreateEmpresa extends StatefulWidget {
   const CreateEmpresa({super.key});
@@ -19,8 +19,14 @@ class _CreateEmpresaState extends State<CreateEmpresa> {
   TextEditingController contato = TextEditingController();
   TextEditingController responsavel = TextEditingController();
   TextEditingController img = TextEditingController();
+  bool filial = false;
   late EmpresaModel empresaModel;
   final _formKey = GlobalKey<FormState>();
+  var json = {
+    "lxtec": "13.505.252/0001-14",
+    "9oficiocg": "15.444.078/0001-72",
+    "vitoriatintas": ""
+  };
 
   @override
   void initState() {
@@ -67,6 +73,10 @@ class _CreateEmpresaState extends State<CreateEmpresa> {
                   WidgetRowText(
                       controller: responsavel, title: "Nome responsável"),
                   WidgetRowText(controller: img, title: "Link imagem"),
+                  checkbox(
+                      titulo: "Filial",
+                      initValue: filial,
+                      onChanged: (sts) => setState(() => filial = sts)),
                 ],
               ),
               SizedBox(
@@ -78,10 +88,11 @@ class _CreateEmpresaState extends State<CreateEmpresa> {
                         cnpj: cnpj.text,
                         endereco: endereco.text,
                         razaoSocial: razaoSocial.text,
-                        nomeFantasia: razaoSocial.text,
+                        nomeFantasia: nomeFantasia.text,
                         contato: contato.text,
                         responsavel: responsavel.text,
                         img: img.text,
+                        filial: filial,
                         dtCreated: DateTime.now());
                     empresaController.criarEmpresa(
                         empresaModel, empresaModel.cnpj);
@@ -96,5 +107,17 @@ class _CreateEmpresaState extends State<CreateEmpresa> {
             ],
           ),
         )));
+  }
+
+  Widget checkbox(
+      {required String titulo,
+      required bool initValue,
+      required Function(bool boolValue) onChanged}) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(titulo),
+          Checkbox(value: initValue, onChanged: (b) => onChanged(b!))
+        ]);
   }
 }

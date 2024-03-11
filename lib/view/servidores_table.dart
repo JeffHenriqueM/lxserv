@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/servidor_model.dart';
+import 'package:lxserv/widgets/dataGridLx.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:lxserv/globals/globals.dart' as globals;
 
 class ServidoresDataTableFlutter extends StatefulWidget {
   const ServidoresDataTableFlutter({super.key});
@@ -27,6 +30,89 @@ class _ServidoresDataTableFlutterState
 
   @override
   Widget build(BuildContext context) {
+    List<GridColumn> colunas = [
+      GridColumn(
+          columnName: 'idHost',
+          label: const Text(
+            'Virtualizador',
+          )),
+      GridColumn(
+          columnName: 'host',
+          label: const Text(
+            'Host',
+          )),
+      GridColumn(
+          columnName: 'hostname',
+          label: const Text(
+            'HOSTNAME',
+          )),
+      GridColumn(
+          columnName: 'status',
+          label: const Text(
+            'Status',
+          )),
+      GridColumn(
+          columnName: 'iplan',
+          label: const Text(
+            'IP - LAN',
+          )),
+      GridColumn(
+          columnName: 'ipwan',
+          label: const Text(
+            'IP - WAN',
+          )),
+      GridColumn(
+          columnName: 'linkWAN',
+          label: const Text(
+            'Link WAN',
+          )),
+      GridColumn(
+          columnName: 'descricao',
+          label: const Text(
+            'Descrição',
+          )),
+      GridColumn(
+          columnName: 'CPU',
+          label: const Text(
+            'CPU',
+          )),
+      GridColumn(
+          columnName: 'ram',
+          label: const Text(
+            'RAM',
+          )),
+      GridColumn(
+          columnName: 'drive',
+          label: const Text(
+            'Drive',
+          )),
+      GridColumn(
+          columnName: 'acessoExterno',
+          label: const Text(
+            'Acesso Externo',
+          )),
+      GridColumn(
+          columnName: 'so',
+          label: const Text(
+            'Sistema Operacional',
+          )),
+      GridColumn(
+          columnName: 'Licença',
+          label: const Text(
+            'licenca',
+          )),
+      GridColumn(
+          columnName: 'antivirus',
+          label: const Text(
+            'Antivirus',
+          )),
+      GridColumn(
+          columnName: 'backup',
+          label: const Text(
+            'backup',
+          )),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -38,118 +124,20 @@ class _ServidoresDataTableFlutterState
       body: SingleChildScrollView(
           padding: const EdgeInsets.all(10),
           scrollDirection: Axis.vertical,
-          child: WidgetSfDataGrid(servidoresDataSource: _servidoresDataSource)),
+          child: WidgetSfDataGrid(
+              servidoresDataSource: _servidoresDataSource, colunas: colunas)),
     );
   }
 
   void buscarDados() async {
-    List<ServidorModel> list = await servidorController.getServidores();
+    List<ServidorModel> list =
+        await servidorController.getServidoresCnpj("13505252000114");
     servidores = list;
+    EmpresaController controller = EmpresaController();
+    globals.empresas = await controller.getEmpresas();
     setState(() {
       _servidoresDataSource = CompaniesDataSource(servidores);
     });
-  }
-}
-
-class WidgetSfDataGrid extends StatelessWidget {
-  const WidgetSfDataGrid({
-    super.key,
-    required CompaniesDataSource servidoresDataSource,
-  }) : _servidoresDataSource = servidoresDataSource;
-
-  final CompaniesDataSource _servidoresDataSource;
-
-  @override
-  Widget build(BuildContext context) {
-    return SfDataGrid(
-        source: _servidoresDataSource,
-        columnWidthMode: ColumnWidthMode.auto,
-        allowColumnsResizing: true,
-        allowColumnsDragging: true,
-        allowFiltering: true,
-        allowSorting: true,
-        columns: <GridColumn>[
-          GridColumn(
-              columnName: 'idHost',
-              label: const Text(
-                'Virtualizador',
-              )),
-          GridColumn(
-              columnName: 'host',
-              label: const Text(
-                'Host',
-              )),
-          GridColumn(
-              columnName: 'hostname',
-              label: const Text(
-                'HOSTNAME',
-              )),
-          GridColumn(
-              columnName: 'status',
-              label: const Text(
-                'Status',
-              )),
-          GridColumn(
-              columnName: 'iplan',
-              label: const Text(
-                'IP - LAN',
-              )),
-          GridColumn(
-              columnName: 'ipwan',
-              label: const Text(
-                'IP - WAN',
-              )),
-          GridColumn(
-              columnName: 'linkWAN',
-              label: const Text(
-                'Link WAN',
-              )),
-          GridColumn(
-              columnName: 'descricao',
-              label: const Text(
-                'Descrição',
-              )),
-          GridColumn(
-              columnName: 'CPU',
-              label: const Text(
-                'CPU',
-              )),
-          GridColumn(
-              columnName: 'ram',
-              label: const Text(
-                'RAM',
-              )),
-          GridColumn(
-              columnName: 'drive',
-              label: const Text(
-                'Drive',
-              )),
-          GridColumn(
-              columnName: 'acessoExterno',
-              label: const Text(
-                'Acesso Externo',
-              )),
-          GridColumn(
-              columnName: 'so',
-              label: const Text(
-                'Sistema Operacional',
-              )),
-          GridColumn(
-              columnName: 'Licença',
-              label: const Text(
-                'licenca',
-              )),
-          GridColumn(
-              columnName: 'antivirus',
-              label: const Text(
-                'Antivirus',
-              )),
-          GridColumn(
-              columnName: 'backup',
-              label: const Text(
-                'backup',
-              )),
-        ]);
   }
 }
 

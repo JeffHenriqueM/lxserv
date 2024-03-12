@@ -12,11 +12,10 @@ class ServidorController {
         onError: (e) => log("Erro ao criar empresa: $e"));
   }
 
-  getServidoresCnpj(cnpj) async {
+  getServidoresCnpj(String? cnpj) async {
     late ServidorModel model;
     late List<ServidorModel> servidores = [];
-    final docRef =
-        db.collection('servidores').where("idCompany", isEqualTo: cnpj).get();
+    final docRef = db.collection('servidores').get();
 
     await docRef.then((event) {
       for (var doc in event.docs) {
@@ -40,7 +39,11 @@ class ServidorController {
           backup: doc.data()['backup'],
           dtCreated: doc.data()['dtCreated'].toDate(),
         );
-        servidores.add(model);
+        if(cnpj == null) {
+          servidores.add(model);
+        }else if(cnpj == model.idCompany){
+          servidores.add(model);
+        }
       }
     });
 

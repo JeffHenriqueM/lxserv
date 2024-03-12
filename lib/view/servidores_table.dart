@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/servidor_model.dart';
 import 'package:lxserv/widgets/datagridlx.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:lxserv/globals/globals.dart' as globals;
+import 'package:flutter/services.dart';
+
 
 class ServidoresDataTableFlutter extends StatefulWidget {
   const ServidoresDataTableFlutter({super.key});
@@ -21,6 +21,7 @@ class _ServidoresDataTableFlutterState
   late ServidorModel model;
   late CompaniesDataSource _servidoresDataSource =
       CompaniesDataSource(servidores);
+  final DataGridController _dataGridController = DataGridController();
 
   @override
   void initState() {
@@ -32,6 +33,31 @@ class _ServidoresDataTableFlutterState
   Widget build(BuildContext context) {
     List<GridColumn> colunas = [
       GridColumn(
+          columnName: 'idCompany',
+          label: const Text(
+            'CNPJ Empresa',
+          )),
+      GridColumn(
+          columnName: 'hostname',
+          label: const Text(
+            'HOSTNAME',
+          )),
+      GridColumn(
+          columnName: 'iplan',
+          label: const Text(
+            'IP - LAN',
+          )),
+      GridColumn(
+          columnName: 'acessoExterno',
+          label: const Text(
+            'Acesso Externo',
+          )),
+      GridColumn(
+          columnName: 'so',
+          label: const Text(
+            'Sistema Operacional',
+          )),
+      GridColumn(
           columnName: 'idHost',
           label: const Text(
             'Virtualizador',
@@ -42,29 +68,14 @@ class _ServidoresDataTableFlutterState
             'Host',
           )),
       GridColumn(
-          columnName: 'hostname',
-          label: const Text(
-            'HOSTNAME',
-          )),
-      GridColumn(
           columnName: 'status',
           label: const Text(
             'Status',
           )),
       GridColumn(
-          columnName: 'iplan',
-          label: const Text(
-            'IP - LAN',
-          )),
-      GridColumn(
           columnName: 'ipwan',
           label: const Text(
             'IP - WAN',
-          )),
-      GridColumn(
-          columnName: 'linkWAN',
-          label: const Text(
-            'Link WAN',
           )),
       GridColumn(
           columnName: 'descricao',
@@ -87,16 +98,6 @@ class _ServidoresDataTableFlutterState
             'Drive',
           )),
       GridColumn(
-          columnName: 'acessoExterno',
-          label: const Text(
-            'Acesso Externo',
-          )),
-      GridColumn(
-          columnName: 'so',
-          label: const Text(
-            'Sistema Operacional',
-          )),
-      GridColumn(
           columnName: 'Licença',
           label: const Text(
             'licenca',
@@ -111,6 +112,11 @@ class _ServidoresDataTableFlutterState
           label: const Text(
             'backup',
           )),
+      GridColumn(
+          columnName: 'linkWAN',
+          label: const Text(
+            'Link WAN',
+          )),
     ];
 
     return Scaffold(
@@ -121,19 +127,32 @@ class _ServidoresDataTableFlutterState
           style: TextStyle(color: Colors.blueAccent),
         ),
       ),
-      body: SingleChildScrollView(
-          padding: const EdgeInsets.all(10),
-          scrollDirection: Axis.vertical,
-          child: WidgetSfDataGrid(
-              servidoresDataSource: _servidoresDataSource, colunas: colunas)),
+      body: Column(
+        children: [
+          IconButton(
+            iconSize: 72,
+            icon: const Icon(Icons.copy),
+            onPressed: () {
+              String? clipboard = _dataGridController.selectedRow?.getCells().elementAt(_dataGridController.currentCell.columnIndex).value.toString();
+                Clipboard.setData(ClipboardData(text: clipboard!));
+
+            },
+          ),
+          SingleChildScrollView(
+              padding: const EdgeInsets.all(10),
+              scrollDirection: Axis.vertical,
+              child: WidgetSfDataGrid(
+                  controller: _dataGridController,
+                  servidoresDataSource: _servidoresDataSource,
+                  colunas: colunas)),
+        ],
+      ),
     );
   }
 
   void buscarDados() async {
-    List<ServidorModel> list = await servidorController.getServidores();
+    List<ServidorModel> list = await servidorController.getServidoresCnpj(null);
     servidores = list;
-    EmpresaController controller = EmpresaController();
-    globals.empresas = await controller.getEmpresas();
     setState(() {
       _servidoresDataSource = CompaniesDataSource(servidores);
     });
@@ -145,19 +164,23 @@ class CompaniesDataSource extends DataGridSource {
     dataGridRows = servidor
         .map<DataGridRow>((dataGridRow) => DataGridRow(cells: [
               DataGridCell<String>(
+                  columnName: 'idCompany', value: dataGridRow.idCompany),
+              DataGridCell<String>(
+                  columnName: 'hostname', value: dataGridRow.hostname),
+              DataGridCell<String>(
+                  columnName: 'iplan', value: dataGridRow.iplan),
+              DataGridCell<String>(
+                  columnName: 'acessoExterno',
+                  value: dataGridRow.acessoExterno),
+              DataGridCell<String>(columnName: 'so', value: dataGridRow.so),
+              DataGridCell<String>(
                   columnName: 'idHost', value: dataGridRow.idHost),
               DataGridCell<String>(
                   columnName: 'host', value: dataGridRow.host ? "Host" : "VM"),
               DataGridCell<String>(
-                  columnName: 'hostname', value: dataGridRow.hostname),
-              DataGridCell<String>(
                   columnName: 'status', value: dataGridRow.status),
               DataGridCell<String>(
-                  columnName: 'iplan', value: dataGridRow.iplan),
-              DataGridCell<String>(
                   columnName: 'ipwan', value: dataGridRow.ipwan),
-              DataGridCell<String>(
-                  columnName: 'linkWAN', value: dataGridRow.linkWAN),
               DataGridCell<String>(
                   columnName: 'descricao', value: dataGridRow.descricao),
               DataGridCell<int>(columnName: 'cpu', value: dataGridRow.cpu),
@@ -165,10 +188,6 @@ class CompaniesDataSource extends DataGridSource {
                   columnName: 'ram', value: "${dataGridRow.ram}GB"),
               DataGridCell<String>(
                   columnName: 'drive', value: "${dataGridRow.drive}GB"),
-              DataGridCell<String>(
-                  columnName: 'acessoExterno',
-                  value: dataGridRow.acessoExterno),
-              DataGridCell<String>(columnName: 'so', value: dataGridRow.so),
               DataGridCell<String>(
                   columnName: 'licenca', value: dataGridRow.licenca),
               DataGridCell<String>(
@@ -179,6 +198,8 @@ class CompaniesDataSource extends DataGridSource {
                 columnName: 'backup',
                 value: dataGridRow.backup,
               ),
+              DataGridCell<String>(
+                  columnName: 'linkWAN', value: dataGridRow.linkWAN),
             ]))
         .toList();
   }

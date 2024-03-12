@@ -7,17 +7,23 @@ class WidgetSfDataGrid extends StatelessWidget {
     super.key,
     required CompaniesDataSource servidoresDataSource,
     required List<GridColumn> colunas,
+    required DataGridController controller,
   })  : _servidoresDataSource = servidoresDataSource,
-        _colunas = colunas;
+        _colunas = colunas,
+        _dataGridController = controller;
+
 
   final CompaniesDataSource _servidoresDataSource;
   final List<GridColumn> _colunas;
+  final DataGridController _dataGridController;
+
 
   @override
   Widget build(BuildContext context) {
     return DataGridLx(
       servidoresDataSource: _servidoresDataSource,
       colunas: _colunas,
+      controller: _dataGridController
     );
   }
 }
@@ -27,11 +33,15 @@ class DataGridLx extends StatelessWidget {
     super.key,
     required CompaniesDataSource servidoresDataSource,
     required List<GridColumn> colunas,
+    required DataGridController controller,
   })  : _servidoresDataSource = servidoresDataSource,
-        _colunas = colunas;
+        _colunas = colunas,
+        _dataGridController = controller;
 
   final CompaniesDataSource _servidoresDataSource;
   final List<GridColumn> _colunas;
+  final DataGridController _dataGridController;
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +52,9 @@ class DataGridLx extends StatelessWidget {
         allowColumnsDragging: true,
         allowFiltering: true,
         allowSorting: true,
+        selectionMode: SelectionMode.single,
+        navigationMode: GridNavigationMode.cell,
+        controller: _dataGridController,
         columns: _colunas);
   }
 }

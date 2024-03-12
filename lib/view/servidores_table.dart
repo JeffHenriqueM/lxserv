@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/servidor_model.dart';
-import 'package:lxserv/widgets/dataGridLx.dart';
+import 'package:lxserv/widgets/datagridlx.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:lxserv/globals/globals.dart' as globals;
 
@@ -130,8 +130,7 @@ class _ServidoresDataTableFlutterState
   }
 
   void buscarDados() async {
-    List<ServidorModel> list =
-        await servidorController.getServidoresCnpj("13505252000114");
+    List<ServidorModel> list = await servidorController.getServidores();
     servidores = list;
     EmpresaController controller = EmpresaController();
     globals.empresas = await controller.getEmpresas();

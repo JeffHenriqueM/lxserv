@@ -3,8 +3,7 @@ import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
 import 'package:lxserv/model/servidor_model.dart';
-import 'package:lxserv/widgets/WidgetsForm.dart';
-import 'package:lxserv/globals/globals.dart' as globals;
+import 'package:lxserv/widgets/widgetsform.dart';
 
 class CreateServidor extends StatefulWidget {
   const CreateServidor({super.key});

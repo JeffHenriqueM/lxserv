@@ -38,7 +38,7 @@ class ServidorController {
           acessoExterno: doc.data()['acessoExterno'],
           antivirus: doc.data()['antivirus'],
           backup: doc.data()['backup'],
-          dtCreated: DateTime.now(),
+          dtCreated: doc.data()['dtCreated'].toDate(),
         );
         servidores.add(model);
       }
@@ -72,7 +72,7 @@ class ServidorController {
           acessoExterno: doc.data()['acessoExterno'],
           antivirus: doc.data()['antivirus'],
           backup: doc.data()['backup'],
-          dtCreated: doc.data()['dtCreated'],
+          dtCreated: doc.data()['dtCreated'].toDate(),
         );
         servidores.add(model);
       }

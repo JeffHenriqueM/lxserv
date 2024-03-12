@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
-import 'package:lxserv/widgets/WidgetsForm.dart';
+import 'package:lxserv/widgets/widgetsform.dart';
 
 class CreateEmpresa extends StatefulWidget {
   const CreateEmpresa({super.key});

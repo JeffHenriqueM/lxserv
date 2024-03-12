@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:lxserv/view/servidores_table.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/material.dart';

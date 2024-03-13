@@ -1,3 +1,4 @@
+import 'package:lxserv/view/empresa_table.dart';
 import 'package:lxserv/view/servidores_table.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/material.dart';
@@ -5,51 +6,50 @@ import 'package:flutter/material.dart';
 class WidgetSfDataGrid extends StatelessWidget {
   const WidgetSfDataGrid({
     super.key,
-    required CompaniesDataSource servidoresDataSource,
+    required DataSourceEmpresa dataSource,
     required List<GridColumn> colunas,
     required DataGridController controller,
-  })  : _servidoresDataSource = servidoresDataSource,
+  })  : _dataSource = dataSource,
         _colunas = colunas,
         _dataGridController = controller;
 
-
-  final CompaniesDataSource _servidoresDataSource;
+  final DataSourceEmpresa _dataSource;
   final List<GridColumn> _colunas;
   final DataGridController _dataGridController;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return DataGridLx(
-      servidoresDataSource: _servidoresDataSource,
-      colunas: _colunas,
-      controller: _dataGridController
-    );
-  }
-}
-
-class DataGridLx extends StatelessWidget {
-  const DataGridLx({
-    super.key,
-    required CompaniesDataSource servidoresDataSource,
-    required List<GridColumn> colunas,
-    required DataGridController controller,
-  })  : _servidoresDataSource = servidoresDataSource,
-        _colunas = colunas,
-        _dataGridController = controller;
-
-  final CompaniesDataSource _servidoresDataSource;
-  final List<GridColumn> _colunas;
-  final DataGridController _dataGridController;
-
 
   @override
   Widget build(BuildContext context) {
     return SfDataGrid(
-        source: _servidoresDataSource,
+        source: _dataSource,
+        columnWidthMode: ColumnWidthMode.fill,
+        allowFiltering: true,
+        allowSorting: true,
+        selectionMode: SelectionMode.single,
+        navigationMode: GridNavigationMode.cell,
+        controller: _dataGridController,
+        columns: _colunas);
+  }
+}
+
+class WidgetSfDataGridServidor extends StatelessWidget {
+  const WidgetSfDataGridServidor({
+    super.key,
+    required DataSourceServidor dataSource,
+    required List<GridColumn> colunas,
+    required DataGridController controller,
+  })  : _dataSource = dataSource,
+        _colunas = colunas,
+        _dataGridController = controller;
+
+  final DataSourceServidor _dataSource;
+  final List<GridColumn> _colunas;
+  final DataGridController _dataGridController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SfDataGrid(
+        source: _dataSource,
         columnWidthMode: ColumnWidthMode.auto,
-        allowColumnsResizing: true,
-        allowColumnsDragging: true,
         allowFiltering: true,
         allowSorting: true,
         selectionMode: SelectionMode.single,

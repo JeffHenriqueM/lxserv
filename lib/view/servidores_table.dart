@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/servidor_model.dart';
+import 'package:lxserv/widgets/app_bar.dart';
 import 'package:lxserv/widgets/data_grid.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/services.dart';
@@ -120,31 +121,24 @@ class _ServidoresDataTableFlutterState
     ];
 
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Listagem de Hosts e Vms',
-            style: TextStyle(color: Colors.blueAccent),
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  String? clipboard = _dataGridController.selectedRow
-                      ?.getCells()
-                      .elementAt(_dataGridController.currentCell.columnIndex)
-                      .value
-                      .toString();
-                  Clipboard.setData(ClipboardData(text: clipboard!));
-                },
-                icon: const Icon(Icons.copy)),
-          ],
-        ),
+        appBar: const AppBarLx(title: "Listagem de Hosts e Vms"),
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return Column(
               children: [
                 Row(
                   children: [
+                    IconButton(
+                        onPressed: () {
+                          String? clipboard = _dataGridController.selectedRow
+                              ?.getCells()
+                              .elementAt(
+                                  _dataGridController.currentCell.columnIndex)
+                              .value
+                              .toString();
+                          Clipboard.setData(ClipboardData(text: clipboard!));
+                        },
+                        icon: const Icon(Icons.copy)),
                     SizedBox(
                       width: 100,
                       child: TextFormField(

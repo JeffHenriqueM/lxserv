@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
+import 'package:lxserv/widgets/app_bar.dart';
 import 'package:lxserv/widgets/data_grid.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/services.dart';
@@ -67,34 +68,31 @@ class _EmpresasDataTableFlutterState extends State<EmpresasDataTableFlutter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Listagem de Empresas',
-          style: TextStyle(color: Colors.blueAccent),
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                String? clipboard = _dataGridController.selectedRow
-                    ?.getCells()
-                    .elementAt(_dataGridController.currentCell.columnIndex)
-                    .value
-                    .toString();
-                Clipboard.setData(ClipboardData(text: clipboard!));
-              },
-              icon: const Icon(Icons.copy)),
-        ],
-      ),
+      appBar: const AppBarLx(title: "Listagem de Empresas"),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           if (constraints.maxWidth > 600) {
             return Padding(
               padding: const EdgeInsets.all(15.0),
-              child: WidgetSfDataGrid(
-                  controller: _dataGridController,
-                  dataSource: _empresaDataSource,
-                  colunas: colunas),
+              child: Column(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        String? clipboard = _dataGridController.selectedRow
+                            ?.getCells()
+                            .elementAt(
+                                _dataGridController.currentCell.columnIndex)
+                            .value
+                            .toString();
+                        Clipboard.setData(ClipboardData(text: clipboard!));
+                      },
+                      icon: const Icon(Icons.copy)),
+                  WidgetSfDataGrid(
+                      controller: _dataGridController,
+                      dataSource: _empresaDataSource,
+                      colunas: colunas),
+                ],
+              ),
             );
           } else {
             return Padding(

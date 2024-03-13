@@ -3,6 +3,7 @@ import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
 import 'package:lxserv/model/servidor_model.dart';
+import 'package:lxserv/widgets/app_bar.dart';
 import 'package:lxserv/widgets/widgetsform.dart';
 
 class CreateServidor extends StatefulWidget {
@@ -49,23 +50,7 @@ class _CreateServidorState extends State<CreateServidor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Cadastrar Servidor"),
-          titleTextStyle: const TextStyle(color: Colors.blue),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/createEmpresa');
-                },
-                icon: const Icon(Icons.computer_sharp)),
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/servidores');
-                },
-                icon: const Icon(Icons.table_rows)),
-          ],
-        ),
+        appBar: const AppBarLx(title: "Cadastrar Servidor"),
         body: Center(
             child: Form(
           key: _formKey,

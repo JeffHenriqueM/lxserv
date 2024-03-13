@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
+import 'package:lxserv/widgets/app_bar.dart';
 import 'package:lxserv/widgets/widgetsform.dart';
 
 class CreateEmpresa extends StatefulWidget {
@@ -36,18 +37,7 @@ class _CreateEmpresaState extends State<CreateEmpresa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Cadastrar Empresa"),
-          titleTextStyle: const TextStyle(color: Colors.blue),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/empresas');
-                },
-                icon: const Icon(Icons.table_rows))
-          ],
-        ),
+        appBar: const AppBarLx(title: "Listagem de Empresas"),
         body: Center(
             child: Form(
           key: _formKey,

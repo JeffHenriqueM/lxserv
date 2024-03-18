@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
+import 'package:lxserv/view/servidores_table.dart';
 import 'package:lxserv/widgets/app_bar.dart';
 import 'package:lxserv/widgets/data_grid.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -87,6 +88,22 @@ class _EmpresasDataTableFlutterState extends State<EmpresasDataTableFlutter> {
                         Clipboard.setData(ClipboardData(text: clipboard!));
                       },
                       icon: const Icon(Icons.copy)),
+                  IconButton(
+                      onPressed: () {
+                        String? cnpj = _dataGridController.selectedRow
+                            ?.getCells()
+                            .elementAt(
+                                _dataGridController.currentCell.columnIndex)
+                            .value
+                            .toString();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ServidoresDataTableFlutter(cnpj: cnpj!),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.table_restaurant)),
                   WidgetSfDataGrid(
                       controller: _dataGridController,
                       dataSource: _empresaDataSource,

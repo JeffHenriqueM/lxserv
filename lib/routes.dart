@@ -11,7 +11,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const CreateServidor());
       case '/servidores':
         return MaterialPageRoute(
-            builder: (_) => const ServidoresDataTableFlutter(),
+            builder: (_) => ServidoresDataTableFlutter(cnpj: ""),
             settings: settings);
       case '/empresas':
         return MaterialPageRoute(

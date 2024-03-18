@@ -8,6 +8,7 @@ class AppBarLx extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
+      automaticallyImplyLeading: false,
       title: Text(_title),
       titleTextStyle: const TextStyle(color: Colors.blue),
       actions: [

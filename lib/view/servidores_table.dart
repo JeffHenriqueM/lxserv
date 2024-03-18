@@ -7,7 +7,9 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/services.dart';
 
 class ServidoresDataTableFlutter extends StatefulWidget {
-  const ServidoresDataTableFlutter({super.key});
+  // ignore: prefer_const_constructors_in_immutables
+  ServidoresDataTableFlutter({super.key, cnpj}) : _cnpj = cnpj;
+  final String _cnpj;
 
   @override
   State<ServidoresDataTableFlutter> createState() =>
@@ -27,7 +29,7 @@ class _ServidoresDataTableFlutterState
   @override
   void initState() {
     super.initState();
-    buscarDados();
+    buscarDados(widget._cnpj);
   }
 
   @override
@@ -121,7 +123,9 @@ class _ServidoresDataTableFlutterState
     ];
 
     return Scaffold(
-        appBar: const AppBarLx(title: "Listagem de Hosts e Vms"),
+        appBar: const AppBarLx(
+          title: "Listagem de Hosts e Vms",
+        ),
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return Column(
@@ -145,17 +149,19 @@ class _ServidoresDataTableFlutterState
                         cursorColor: Colors.green,
                         textAlign: TextAlign.center,
                         controller: controller,
-                        onChanged: (value) => {
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
                           _servidoresDataSource.addFilter(
                               'hostname',
                               FilterCondition(
-                                value: value,
+                                value: controller.text,
                                 type: FilterType.contains,
                                 filterBehavior: FilterBehavior.stringDataType,
-                              ))
+                              ));
                         },
-                      ),
-                    ),
+                        icon: const Icon(Icons.search)),
                   ],
                 ),
                 Expanded(
@@ -171,8 +177,13 @@ class _ServidoresDataTableFlutterState
         ));
   }
 
-  void buscarDados() async {
-    List<ServidorModel> list = await servidorController.getServidoresCnpj(null);
+  void buscarDados(String cnpj) async {
+    List<ServidorModel> list;
+    if (cnpj == "") {
+      list = await servidorController.getServidoresCnpj(null);
+    } else {
+      list = await servidorController.getServidoresCnpj(cnpj);
+    }
     servidores = list;
     setState(() {
       _servidoresDataSource = DataSourceServidor(servidores);

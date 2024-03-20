@@ -36,6 +36,12 @@ class _ServidoresDataTableFlutterState
   Widget build(BuildContext context) {
     List<GridColumn> colunas = [
       GridColumn(
+          columnName: 'img',
+          visible: false,
+          label: const Text(
+            'Imagem Empresa',
+          )),
+      GridColumn(
           columnName: 'idCompany',
           label: const Text(
             'CNPJ Empresa',
@@ -133,6 +139,27 @@ class _ServidoresDataTableFlutterState
                 Row(
                   children: [
                     IconButton(
+                        onPressed: () async {
+                          String img = _dataGridController.selectedRow!
+                              .getCells()
+                              .elementAt(0)
+                              .value
+                              .toString();
+
+                          await showDialog(
+                            context: context,
+                            builder: (_) => Container(
+                              width: 150,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage(img),
+                                      fit: BoxFit.fill)),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.image)),
+                    IconButton(
                         onPressed: () {
                           String? clipboard = _dataGridController.selectedRow
                               ?.getCells()
@@ -191,10 +218,29 @@ class _ServidoresDataTableFlutterState
   }
 }
 
+class ImageDialog extends StatelessWidget {
+  const ImageDialog({super.key, required img}) : _img = img;
+  final String _img;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        width: 200,
+        height: 200,
+        decoration: BoxDecoration(
+            image:
+                DecorationImage(image: NetworkImage(_img), fit: BoxFit.cover)),
+      ),
+    );
+  }
+}
+
 class DataSourceServidor extends DataGridSource {
   DataSourceServidor(List<ServidorModel> servidor) {
     dataGridRows = servidor
         .map<DataGridRow>((dataGridRow) => DataGridRow(cells: [
+              DataGridCell<String>(columnName: 'img', value: dataGridRow.img),
               DataGridCell<String>(
                   columnName: 'idCompany', value: dataGridRow.idCompany),
               DataGridCell<String>(

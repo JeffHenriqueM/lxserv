@@ -77,33 +77,37 @@ class _EmpresasDataTableFlutterState extends State<EmpresasDataTableFlutter> {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        String? clipboard = _dataGridController.selectedRow
-                            ?.getCells()
-                            .elementAt(
-                                _dataGridController.currentCell.columnIndex)
-                            .value
-                            .toString();
-                        Clipboard.setData(ClipboardData(text: clipboard!));
-                      },
-                      icon: const Icon(Icons.copy)),
-                  IconButton(
-                      onPressed: () {
-                        String? cnpj = _dataGridController.selectedRow
-                            ?.getCells()
-                            .elementAt(
-                                _dataGridController.currentCell.columnIndex)
-                            .value
-                            .toString();
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ServidoresDataTableFlutter(cnpj: cnpj!),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.table_restaurant)),
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            String? clipboard = _dataGridController.selectedRow
+                                ?.getCells()
+                                .elementAt(
+                                    _dataGridController.currentCell.columnIndex)
+                                .value
+                                .toString();
+                            Clipboard.setData(ClipboardData(text: clipboard!));
+                          },
+                          icon: const Icon(Icons.copy)),
+                      IconButton(
+                          onPressed: () {
+                            String? cnpj = _dataGridController.selectedRow
+                                ?.getCells()
+                                .elementAt(
+                                    _dataGridController.currentCell.columnIndex)
+                                .value
+                                .toString();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ServidoresDataTableFlutter(cnpj: cnpj!),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.table_restaurant)),
+                    ],
+                  ),
                   WidgetSfDataGrid(
                       controller: _dataGridController,
                       dataSource: _empresaDataSource,

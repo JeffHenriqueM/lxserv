@@ -23,11 +23,6 @@ class _CreateEmpresaState extends State<CreateEmpresa> {
   bool filial = false;
   late EmpresaModel empresaModel;
   final _formKey = GlobalKey<FormState>();
-  var json = {
-    "lxtec": "13.505.252/0001-14",
-    "9oficiocg": "15.444.078/0001-72",
-    "vitoriatintas": ""
-  };
 
   @override
   void initState() {

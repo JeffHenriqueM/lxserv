@@ -17,10 +17,12 @@ class ServidorModel {
   String antivirus;
   String backup;
   DateTime dtCreated;
+  String img;
   //late DateTime dtUpdate;
   //late DateTime dtDelete;
 
   ServidorModel({
+    required this.img,
     required this.idCompany,
     required this.idHost,
     required this.host,
@@ -43,6 +45,7 @@ class ServidorModel {
 
   fromMap(Map<String, dynamic> map) {
     return ServidorModel(
+      img: map['img'],
       idCompany: map['idCompany'].replaceAll(RegExp(r'[^\w\s]+'), ''),
       idHost: map['idHost'],
       host: map['host'],
@@ -68,6 +71,7 @@ class ServidorModel {
 
   toMap() {
     return {
+      'img': img,
       'idCompany': idCompany.replaceAll(RegExp(r'[^\w\s]+'), ''),
       'idHost': idHost,
       'host': host,

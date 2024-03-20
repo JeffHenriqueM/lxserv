@@ -16,6 +16,7 @@ class CreateServidor extends StatefulWidget {
 class _CreateServidorState extends State<CreateServidor> {
   ServidorController servidorController = ServidorController();
   EmpresaController empresaController = EmpresaController();
+  TextEditingController img = TextEditingController();
   TextEditingController idHost = TextEditingController();
   TextEditingController hostname = TextEditingController();
   TextEditingController descricao = TextEditingController();
@@ -128,6 +129,7 @@ class _CreateServidorState extends State<CreateServidor> {
                     String backup = "Acronis/Bareos";
 
                     ServidorModel servidorModel = ServidorModel(
+                        img: img.text,
                         idCompany: cnpj,
                         idHost: idHost.text,
                         host: host,
@@ -146,7 +148,7 @@ class _CreateServidorState extends State<CreateServidor> {
                         antivirus: antivirus.text,
                         backup: backup,
                         dtCreated: DateTime.now());
-                    servidorController.saveCompanie(servidorModel);
+                    servidorController.criarServidor(servidorModel);
                     Navigator.pushNamed(context, '/servidores');
 
                     /*for (var element in jsonCompanies) { -- Adicionar tudo vindo de um json

@@ -3,6 +3,7 @@ import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/servidor_model.dart';
 import 'package:lxserv/widgets/app_bar.dart';
 import 'package:lxserv/widgets/data_grid.dart';
+import 'package:lxserv/widgets/image_dialog.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/services.dart';
 
@@ -140,23 +141,14 @@ class _ServidoresDataTableFlutterState
                   children: [
                     IconButton(
                         onPressed: () async {
-                          String img = _dataGridController.selectedRow!
+                          String url = _dataGridController.selectedRow!
                               .getCells()
                               .elementAt(0)
                               .value
                               .toString();
-
-                          await showDialog(
-                            context: context,
-                            builder: (_) => Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(img),
-                                      fit: BoxFit.fill)),
-                            ),
-                          );
+                          showDialog(
+                              context: context,
+                              builder: (_) => ImageDialogLx(url: url));
                         },
                         icon: const Icon(Icons.image)),
                     IconButton(

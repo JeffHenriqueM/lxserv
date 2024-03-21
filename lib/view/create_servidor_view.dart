@@ -4,6 +4,7 @@ import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
 import 'package:lxserv/model/servidor_model.dart';
 import 'package:lxserv/widgets/app_bar.dart';
+import 'package:lxserv/widgets/column_form.dart';
 import 'package:lxserv/widgets/widgetsform.dart';
 
 class CreateServidor extends StatefulWidget {
@@ -56,67 +57,127 @@ class _CreateServidorState extends State<CreateServidor> {
             child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetRowText(controller: idHost, title: "Virtualizador"),
-                  WidgetRowText(controller: hostname, title: "HOSTNAME"),
-                  WidgetRowText(controller: iplan, title: "IP - LAN"),
+                  ColumnForm(
+                      title: "Identificação",
+                      widgets: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              DropdownMenu(
+                                hintText: "Selecione a empresa",
+                                width: 300,
+                                dropdownMenuEntries: empresas
+                                    .map<DropdownMenuEntry<EmpresaModel>>(
+                                        (EmpresaModel value) {
+                                  return DropdownMenuEntry<EmpresaModel>(
+                                      value: value, label: value.nomeFantasia);
+                                }).toList(),
+                                onSelected: (EmpresaModel? value) {
+                                  // This is called when the user selects an item.
+                                  setState(() {
+                                    cnpj = value!.cnpj;
+                                  });
+                                },
+                              ),
+                              WidgetRowText(
+                                  controller: idHost, title: "Virtualizador"),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              WidgetRowText(
+                                  controller: hostname, title: "HOSTNAME"),
+                              WidgetRowText(
+                                  controller: descricao, title: "Descrição"),
+                            ],
+                          ),
+                        ],
+                      )),
+                  ColumnForm(
+                    title: "Informações",
+                    widgets: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(controller: iplan, title: "IP - LAN"),
+                            WidgetRowText(controller: ipwan, title: "IP - WAN"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(
+                                controller: linkWAN, title: "Link WAN"),
+                            WidgetRowText(
+                                controller: acessoExterno,
+                                title: "Acesso Externo"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetRowText(controller: ipwan, title: "IP - WAN"),
-                  WidgetRowText(controller: linkWAN, title: "Link WAN"),
-                  WidgetRowText(controller: descricao, title: "Descrição"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  WidgetRowNumber(controller: cpu, title: "CPU"),
-                  WidgetRowNumber(controller: ram, title: "RAM"),
-                  WidgetRowNumber(controller: drive, title: "Drive"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  WidgetRowText(
-                      controller: acessoExterno, title: "Acesso Externo"),
-                  WidgetRowText(controller: so, title: "SO"),
-                  WidgetRowText(controller: licenca, title: "Licença"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  WidgetRowText(controller: antivirus, title: "Antivirus"),
-                  DropdownMenu(
-                    hintText: "Selecione a empresa",
-                    width: 400,
-                    dropdownMenuEntries: empresas
-                        .map<DropdownMenuEntry<EmpresaModel>>(
-                            (EmpresaModel value) {
-                      return DropdownMenuEntry<EmpresaModel>(
-                          value: value, label: value.nomeFantasia);
-                    }).toList(),
-                    onSelected: (EmpresaModel? value) {
-                      // This is called when the user selects an item.
-                      setState(() {
-                        cnpj = value!.cnpj;
-                      });
-                    },
+                  ColumnForm(
+                    title: "Hardware",
+                    widgets: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowNumber(controller: cpu, title: "CPU"),
+                            WidgetRowNumber(controller: ram, title: "RAM"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowNumber(controller: drive, title: "Drive"),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+                  ColumnForm(
+                    title: "Sistema",
+                    widgets: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(controller: so, title: "SO"),
+                            WidgetRowText(
+                                controller: licenca, title: "Licença"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(
+                                controller: antivirus, title: "Antivirus"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
               SizedBox(
-                width: 100,
-                height: 100,
                 child: ElevatedButton(
                   onPressed: () {
                     int cpus = int.parse(cpu.text);

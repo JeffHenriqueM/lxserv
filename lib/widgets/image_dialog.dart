@@ -6,8 +6,6 @@ class ImageDialogLx extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-        child:
-            Image.network(_url, width: 1000, height: 1000, fit: BoxFit.cover));
+    return Dialog(child: Image.network(_url, fit: BoxFit.cover));
   }
 }

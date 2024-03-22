@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
          ThemeMode.light for light theme, 
          ThemeMode.dark for dark theme
       */
-      initialRoute: '/createServidor',
+      initialRoute: '/servidores',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

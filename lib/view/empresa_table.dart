@@ -6,6 +6,7 @@ import 'package:lxserv/widgets/app_bar.dart';
 import 'package:lxserv/widgets/data_grid.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/services.dart';
+import 'package:lxserv/widgets/image_dialog.dart';
 
 class EmpresasDataTableFlutter extends StatefulWidget {
   const EmpresasDataTableFlutter({super.key});
@@ -29,6 +30,12 @@ class _EmpresasDataTableFlutterState extends State<EmpresasDataTableFlutter> {
   }
 
   List<GridColumn> colunas = [
+    GridColumn(
+        columnName: 'img',
+        visible: false,
+        label: const Text(
+          'Imagem Empresa',
+        )),
     GridColumn(
         columnName: 'cnpj',
         label: const Text(
@@ -79,6 +86,18 @@ class _EmpresasDataTableFlutterState extends State<EmpresasDataTableFlutter> {
                 children: [
                   Row(
                     children: [
+                      IconButton(
+                          onPressed: () async {
+                            String url = _dataGridController.selectedRow!
+                                .getCells()
+                                .elementAt(0)
+                                .value
+                                .toString();
+                            showDialog(
+                                context: context,
+                                builder: (_) => ImageDialogLx(url: url));
+                          },
+                          icon: const Icon(Icons.image)),
                       IconButton(
                           onPressed: () {
                             String? clipboard = _dataGridController.selectedRow
@@ -142,6 +161,7 @@ class DataSourceEmpresa extends DataGridSource {
   DataSourceEmpresa(List<EmpresaModel> servidor) {
     dataGridRows = servidor
         .map<DataGridRow>((dataGridRow) => DataGridRow(cells: [
+              DataGridCell<String>(columnName: 'img', value: dataGridRow.img),
               DataGridCell<String>(columnName: 'cnpj', value: dataGridRow.cnpj),
               DataGridCell<String>(
                   columnName: 'razaoSocial', value: dataGridRow.razaoSocial),

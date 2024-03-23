@@ -3,6 +3,8 @@ import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
 import 'package:lxserv/model/servidor_model.dart';
+import 'package:lxserv/widgets/app_bar.dart';
+import 'package:lxserv/widgets/column_form.dart';
 import 'package:lxserv/widgets/widgetsform.dart';
 
 class CreateServidor extends StatefulWidget {
@@ -15,6 +17,7 @@ class CreateServidor extends StatefulWidget {
 class _CreateServidorState extends State<CreateServidor> {
   ServidorController servidorController = ServidorController();
   EmpresaController empresaController = EmpresaController();
+  TextEditingController img = TextEditingController();
   TextEditingController idHost = TextEditingController();
   TextEditingController hostname = TextEditingController();
   TextEditingController descricao = TextEditingController();
@@ -49,88 +52,132 @@ class _CreateServidorState extends State<CreateServidor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Cadastrar Servidor"),
-          titleTextStyle: const TextStyle(color: Colors.blue),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/createEmpresa');
-                },
-                icon: const Icon(Icons.computer_sharp)),
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/servidores');
-                },
-                icon: const Icon(Icons.table_rows)),
-          ],
-        ),
+        appBar: const AppBarLx(title: "Cadastrar Servidor"),
         body: Center(
             child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetRowText(controller: idHost, title: "Virtualizador"),
-                  WidgetRowText(controller: hostname, title: "HOSTNAME"),
-                  WidgetRowText(controller: iplan, title: "IP - LAN"),
+                  ColumnForm(
+                      title: "Identificação",
+                      widgets: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              DropdownMenu(
+                                hintText: "Selecione a empresa",
+                                width: 300,
+                                dropdownMenuEntries: empresas
+                                    .map<DropdownMenuEntry<EmpresaModel>>(
+                                        (EmpresaModel value) {
+                                  return DropdownMenuEntry<EmpresaModel>(
+                                      value: value, label: value.nomeFantasia);
+                                }).toList(),
+                                onSelected: (EmpresaModel? value) {
+                                  // This is called when the user selects an item.
+                                  setState(() {
+                                    cnpj = value!.cnpj;
+                                  });
+                                },
+                              ),
+                              WidgetRowText(
+                                  controller: idHost, title: "Virtualizador"),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              WidgetRowText(
+                                  controller: hostname, title: "HOSTNAME"),
+                              WidgetRowText(
+                                  controller: descricao, title: "Descrição"),
+                            ],
+                          ),
+                        ],
+                      )),
+                  ColumnForm(
+                    title: "Informações",
+                    widgets: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(controller: iplan, title: "IP - LAN"),
+                            WidgetRowText(controller: ipwan, title: "IP - WAN"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(
+                                controller: linkWAN, title: "Link WAN"),
+                            WidgetRowText(
+                                controller: acessoExterno,
+                                title: "Acesso Externo"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetRowText(controller: ipwan, title: "IP - WAN"),
-                  WidgetRowText(controller: linkWAN, title: "Link WAN"),
-                  WidgetRowText(controller: descricao, title: "Descrição"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  WidgetRowNumber(controller: cpu, title: "CPU"),
-                  WidgetRowNumber(controller: ram, title: "RAM"),
-                  WidgetRowNumber(controller: drive, title: "Drive"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  WidgetRowText(
-                      controller: acessoExterno, title: "Acesso Externo"),
-                  WidgetRowText(controller: so, title: "SO"),
-                  WidgetRowText(controller: licenca, title: "Licença"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  WidgetRowText(controller: antivirus, title: "Antivirus"),
-                  DropdownMenu(
-                    hintText: "Selecione a empresa",
-                    width: 400,
-                    dropdownMenuEntries: empresas
-                        .map<DropdownMenuEntry<EmpresaModel>>(
-                            (EmpresaModel value) {
-                      return DropdownMenuEntry<EmpresaModel>(
-                          value: value, label: value.nomeFantasia);
-                    }).toList(),
-                    onSelected: (EmpresaModel? value) {
-                      // This is called when the user selects an item.
-                      setState(() {
-                        cnpj = value!.cnpj;
-                      });
-                    },
+                  ColumnForm(
+                    title: "Hardware",
+                    widgets: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowNumber(controller: cpu, title: "CPU"),
+                            WidgetRowNumber(controller: ram, title: "RAM"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowNumber(controller: drive, title: "Drive"),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+                  ColumnForm(
+                    title: "Sistema",
+                    widgets: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(controller: so, title: "SO"),
+                            WidgetRowText(
+                                controller: licenca, title: "Licença"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(
+                                controller: antivirus, title: "Antivirus"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
               SizedBox(
-                width: 100,
-                height: 100,
                 child: ElevatedButton(
                   onPressed: () {
                     int cpus = int.parse(cpu.text);
@@ -143,6 +190,7 @@ class _CreateServidorState extends State<CreateServidor> {
                     String backup = "Acronis/Bareos";
 
                     ServidorModel servidorModel = ServidorModel(
+                        img: img.text,
                         idCompany: cnpj,
                         idHost: idHost.text,
                         host: host,
@@ -161,7 +209,7 @@ class _CreateServidorState extends State<CreateServidor> {
                         antivirus: antivirus.text,
                         backup: backup,
                         dtCreated: DateTime.now());
-                    servidorController.saveCompanie(servidorModel);
+                    servidorController.criarServidor(servidorModel);
                     Navigator.pushNamed(context, '/servidores');
 
                     /*for (var element in jsonCompanies) { -- Adicionar tudo vindo de um json

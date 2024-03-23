@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lxserv/controller/servidor_controller.dart';
 import 'package:lxserv/model/servidor_model.dart';
-import 'package:lxserv/widgets/datagridlx.dart';
+import 'package:lxserv/widgets/app_bar.dart';
+import 'package:lxserv/widgets/data_grid.dart';
+import 'package:lxserv/widgets/image_dialog.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:flutter/services.dart';
 
-
 class ServidoresDataTableFlutter extends StatefulWidget {
-  const ServidoresDataTableFlutter({super.key});
+  // ignore: prefer_const_constructors_in_immutables
+  ServidoresDataTableFlutter({super.key, cnpj}) : _cnpj = cnpj;
+  final String _cnpj;
 
   @override
   State<ServidoresDataTableFlutter> createState() =>
@@ -19,19 +22,26 @@ class _ServidoresDataTableFlutterState
   ServidorController servidorController = ServidorController();
   List<ServidorModel> servidores = [];
   late ServidorModel model;
-  late CompaniesDataSource _servidoresDataSource =
-      CompaniesDataSource(servidores);
+  late DataSourceServidor _servidoresDataSource =
+      DataSourceServidor(servidores);
   final DataGridController _dataGridController = DataGridController();
+  final TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    buscarDados();
+    buscarDados(widget._cnpj);
   }
 
   @override
   Widget build(BuildContext context) {
     List<GridColumn> colunas = [
+      GridColumn(
+          columnName: 'img',
+          visible: false,
+          label: const Text(
+            'Imagem Empresa',
+          )),
       GridColumn(
           columnName: 'idCompany',
           label: const Text(
@@ -53,19 +63,24 @@ class _ServidoresDataTableFlutterState
             'Acesso Externo',
           )),
       GridColumn(
+          columnName: 'descricao',
+          label: const Text(
+            'Descrição',
+          )),
+      GridColumn(
           columnName: 'so',
           label: const Text(
             'Sistema Operacional',
           )),
       GridColumn(
-          columnName: 'idHost',
-          label: const Text(
-            'Virtualizador',
-          )),
-      GridColumn(
           columnName: 'host',
           label: const Text(
             'Host',
+          )),
+      GridColumn(
+          columnName: 'idHost',
+          label: const Text(
+            'Virtualizador',
           )),
       GridColumn(
           columnName: 'status',
@@ -76,11 +91,6 @@ class _ServidoresDataTableFlutterState
           columnName: 'ipwan',
           label: const Text(
             'IP - WAN',
-          )),
-      GridColumn(
-          columnName: 'descricao',
-          label: const Text(
-            'Descrição',
           )),
       GridColumn(
           columnName: 'CPU',
@@ -120,49 +130,109 @@ class _ServidoresDataTableFlutterState
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Listagem de Hosts e Vms',
-          style: TextStyle(color: Colors.blueAccent),
+        appBar: const AppBarLx(
+          title: "Listagem de Hosts e Vms",
         ),
-      ),
-      body: Column(
-        children: [
-          IconButton(
-            iconSize: 72,
-            icon: const Icon(Icons.copy),
-            onPressed: () {
-              String? clipboard = _dataGridController.selectedRow?.getCells().elementAt(_dataGridController.currentCell.columnIndex).value.toString();
-                Clipboard.setData(ClipboardData(text: clipboard!));
-
-            },
-          ),
-          SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
-              scrollDirection: Axis.vertical,
-              child: WidgetSfDataGrid(
-                  controller: _dataGridController,
-                  servidoresDataSource: _servidoresDataSource,
-                  colunas: colunas)),
-        ],
-      ),
-    );
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () async {
+                          String url = _dataGridController.selectedRow!
+                              .getCells()
+                              .elementAt(0)
+                              .value
+                              .toString();
+                          showDialog(
+                              context: context,
+                              builder: (_) => ImageDialogLx(url: url));
+                        },
+                        icon: const Icon(Icons.image)),
+                    IconButton(
+                        onPressed: () {
+                          String? clipboard = _dataGridController.selectedRow
+                              ?.getCells()
+                              .elementAt(
+                                  _dataGridController.currentCell.columnIndex)
+                              .value
+                              .toString();
+                          Clipboard.setData(ClipboardData(text: clipboard!));
+                        },
+                        icon: const Icon(Icons.copy)),
+                    SizedBox(
+                      width: 100,
+                      child: TextFormField(
+                        cursorColor: Colors.green,
+                        textAlign: TextAlign.center,
+                        controller: controller,
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          _servidoresDataSource.addFilter(
+                              'hostname',
+                              FilterCondition(
+                                value: controller.text,
+                                type: FilterType.contains,
+                                filterBehavior: FilterBehavior.stringDataType,
+                              ));
+                        },
+                        icon: const Icon(Icons.search)),
+                  ],
+                ),
+                Expanded(
+                  child: WidgetSfDataGridServidor(
+                      controller: _dataGridController,
+                      dataSource: _servidoresDataSource,
+                      colunas: colunas),
+                ),
+              ],
+            );
+            //if (constraints.maxWidth > 600) {}
+          },
+        ));
   }
 
-  void buscarDados() async {
-    List<ServidorModel> list = await servidorController.getServidoresCnpj(null);
+  void buscarDados(String cnpj) async {
+    List<ServidorModel> list;
+    if (cnpj == "") {
+      list = await servidorController.getServidoresCnpj(null);
+    } else {
+      list = await servidorController.getServidoresCnpj(cnpj);
+    }
     servidores = list;
     setState(() {
-      _servidoresDataSource = CompaniesDataSource(servidores);
+      _servidoresDataSource = DataSourceServidor(servidores);
     });
   }
 }
 
-class CompaniesDataSource extends DataGridSource {
-  CompaniesDataSource(List<ServidorModel> servidor) {
+class ImageDialog extends StatelessWidget {
+  const ImageDialog({super.key, required img}) : _img = img;
+  final String _img;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        width: 200,
+        height: 200,
+        decoration: BoxDecoration(
+            image:
+                DecorationImage(image: NetworkImage(_img), fit: BoxFit.cover)),
+      ),
+    );
+  }
+}
+
+class DataSourceServidor extends DataGridSource {
+  DataSourceServidor(List<ServidorModel> servidor) {
     dataGridRows = servidor
         .map<DataGridRow>((dataGridRow) => DataGridRow(cells: [
+              DataGridCell<String>(columnName: 'img', value: dataGridRow.img),
               DataGridCell<String>(
                   columnName: 'idCompany', value: dataGridRow.idCompany),
               DataGridCell<String>(
@@ -172,17 +242,17 @@ class CompaniesDataSource extends DataGridSource {
               DataGridCell<String>(
                   columnName: 'acessoExterno',
                   value: dataGridRow.acessoExterno),
+              DataGridCell<String>(
+                  columnName: 'descricao', value: dataGridRow.descricao),
               DataGridCell<String>(columnName: 'so', value: dataGridRow.so),
               DataGridCell<String>(
-                  columnName: 'idHost', value: dataGridRow.idHost),
-              DataGridCell<String>(
                   columnName: 'host', value: dataGridRow.host ? "Host" : "VM"),
+              DataGridCell<String>(
+                  columnName: 'idHost', value: dataGridRow.idHost),
               DataGridCell<String>(
                   columnName: 'status', value: dataGridRow.status),
               DataGridCell<String>(
                   columnName: 'ipwan', value: dataGridRow.ipwan),
-              DataGridCell<String>(
-                  columnName: 'descricao', value: dataGridRow.descricao),
               DataGridCell<int>(columnName: 'cpu', value: dataGridRow.cpu),
               DataGridCell<String>(
                   columnName: 'ram', value: "${dataGridRow.ram}GB"),

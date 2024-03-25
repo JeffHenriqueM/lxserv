@@ -177,9 +177,16 @@ class _CreateServidorState extends State<CreateServidor> {
                   )
                 ],
               ),
-              SizedBox(
-                child: ElevatedButton(
-                  onPressed: () {
+              ElevatedButton(
+                onPressed: () {
+                  // Validate returns true if the form is valid, or false otherwise.
+                  if (_formKey.currentState!.validate()) {
+                    // If the form is valid, display a snackbar. In the real world,
+                    // you'd often call a server or save the information in a database.
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Processing Data')),
+                    );
+
                     int cpus = int.parse(cpu.text);
                     int rams = int.parse(ram.text);
                     double drives = double.parse(drive.text);
@@ -211,31 +218,10 @@ class _CreateServidorState extends State<CreateServidor> {
                         dtCreated: DateTime.now());
                     servidorController.criarServidor(servidorModel);
                     Navigator.pushNamed(context, '/servidores');
-
-                    /*for (var element in jsonCompanies) { -- Adicionar tudo vindo de um json
-                        servidorModel = ServidorModel(
-                            idHost: element['idHost'].toString(),
-                            hostname: element['hostname'].toString(),
-                            descricao: element['descricao'].toString(),
-                            so: element['so'].toString(),
-                            iplan: element['iplan'].toString(),
-                            ipwan: element['ipwan'].toString(),
-                            linkWAN: element['linkWAN'].toString(),
-                            cpu: int.parse(element['cpu'].toString()),
-                            ram: int.parse(element['ram'].toString()),
-                            drive: double.parse(element['drive'].toString()),
-                            licenca: element['licenca'].toString(),
-                            antivirus: element['antivirus'].toString(),
-                            dtCreated: DateTime.now());
-                        servidorController.saveCompanie(servidorModel);
-                      }*/
-                  },
-                  child: const Text(
-                    "Salvar",
-                    style: TextStyle(color: Colors.green),
-                  ),
-                ),
-              )
+                  }
+                },
+                child: const Text('Submit'),
+              ),
             ],
           ),
         )));

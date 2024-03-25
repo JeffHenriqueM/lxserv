@@ -23,6 +23,12 @@ class WidgetRowText extends StatelessWidget {
             cursorColor: Colors.green,
             textAlign: TextAlign.center,
             controller: controller,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor preencha a informação';
+              }
+              return null;
+            },
           ),
         ),
       ],
@@ -54,6 +60,12 @@ class WidgetRowCnpj extends StatelessWidget {
             cursorColor: Colors.green,
             textAlign: TextAlign.center,
             controller: controller,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor preencha a informação';
+              }
+              return null;
+            },
           ),
         ),
       ],

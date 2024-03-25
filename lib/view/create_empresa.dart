@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lxserv/controller/empresa_controller.dart';
 import 'package:lxserv/model/empresa_model.dart';
 import 'package:lxserv/widgets/app_bar.dart';
+import 'package:lxserv/widgets/column_form.dart';
 import 'package:lxserv/widgets/widgetsform.dart';
 
 class CreateEmpresa extends StatefulWidget {
@@ -43,32 +44,79 @@ class _CreateEmpresaState extends State<CreateEmpresa> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetRowCnpj(controller: cnpj, title: "CNPJ"),
-                  WidgetRowText(controller: razaoSocial, title: "Razão Social"),
-                  WidgetRowText(
-                      controller: nomeFantasia, title: "Nome Fantasia"),
-                  WidgetRowText(
-                      controller: endereco, title: "Endereço completo"),
+                  ColumnForm(
+                    title: "Identificação",
+                    widgets: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowCnpj(controller: cnpj, title: "CNPJ"),
+                            WidgetRowText(
+                                controller: razaoSocial, title: "Razão Social"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(
+                                controller: nomeFantasia,
+                                title: "Nome Fantasia"),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  ColumnForm(
+                    title: "Endereço",
+                    widgets: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetRowText(
+                                controller: endereco,
+                                title: "Endereço completo"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  WidgetRowText(controller: contato, title: "Contato"),
-                  WidgetRowText(
-                      controller: responsavel, title: "Nome responsável"),
-                  WidgetRowText(controller: img, title: "Link imagem"),
-                  checkbox(
-                      titulo: "Filial",
-                      initValue: filial,
-                      onChanged: (sts) => setState(() => filial = sts)),
-                ],
+              ColumnForm(
+                title: "Contato",
+                widgets: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        WidgetRowText(controller: contato, title: "Contato"),
+                        WidgetRowText(
+                            controller: responsavel, title: "Nome responsável"),
+                      ],
+                    ),
+                    WidgetRowText(controller: img, title: "Link imagem"),
+                  ],
+                ),
               ),
-              SizedBox(
-                width: 100,
-                height: 100,
-                child: ElevatedButton(
-                  onPressed: () {
+              checkbox(
+                  titulo: "Filial",
+                  initValue: filial,
+                  onChanged: (sts) => setState(() => filial = sts)),
+              ElevatedButton(
+                onPressed: () {
+                  // Validate returns true if the form is valid, or false otherwise.
+                  if (_formKey.currentState!.validate()) {
+                    // If the form is valid, display a snackbar. In the real world,
+                    // you'd often call a server or save the information in a database.
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Processing Data')),
+                    );
+
                     EmpresaModel empresaModel = EmpresaModel(
                         cnpj: cnpj.text,
                         endereco: endereco.text,
@@ -82,13 +130,10 @@ class _CreateEmpresaState extends State<CreateEmpresa> {
                     empresaController.criarEmpresa(
                         empresaModel, empresaModel.cnpj);
                     Navigator.pushNamed(context, '/empresas');
-                  },
-                  child: const Text(
-                    "Salvar",
-                    style: TextStyle(color: Colors.green),
-                  ),
-                ),
-              )
+                  }
+                },
+                child: const Text('Submit'),
+              ),
             ],
           ),
         )));

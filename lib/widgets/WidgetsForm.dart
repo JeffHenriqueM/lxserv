@@ -90,14 +90,20 @@ class WidgetRowNumber extends StatelessWidget {
         Text(title),
         SizedBox(
           width: 200,
-          child: TextField(
+          child: TextFormField(
             keyboardType: TextInputType.number,
             cursorColor: Colors.green,
             textAlign: TextAlign.center,
             controller: controller,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly
-            ], // Only numbers can be entered
+            ],
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor preencha a informação';
+              }
+              return null;
+            }, // Only numbers can be entered
           ),
         ),
       ],

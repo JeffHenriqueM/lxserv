@@ -31,7 +31,7 @@ class _CreateServidorState extends State<CreateServidor> {
   TextEditingController acessoExterno = TextEditingController();
   TextEditingController licenca = TextEditingController();
   TextEditingController antivirus = TextEditingController();
-  String cnpj = "";
+  TextEditingController cnpj = TextEditingController();
   late ServidorModel servidorModel;
   List<EmpresaModel> empresas = [];
   final _formKey = GlobalKey<FormState>();
@@ -57,10 +57,10 @@ class _CreateServidorState extends State<CreateServidor> {
             child: Form(
           key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ColumnForm(
                       title: "Identificação",
@@ -73,18 +73,13 @@ class _CreateServidorState extends State<CreateServidor> {
                               DropdownMenu(
                                 hintText: "Selecione a empresa",
                                 width: 300,
+                                controller: cnpj,
                                 dropdownMenuEntries: empresas
                                     .map<DropdownMenuEntry<EmpresaModel>>(
                                         (EmpresaModel value) {
                                   return DropdownMenuEntry<EmpresaModel>(
                                       value: value, label: value.nomeFantasia);
                                 }).toList(),
-                                onSelected: (EmpresaModel? value) {
-                                  // This is called when the user selects an item.
-                                  setState(() {
-                                    cnpj = value!.cnpj;
-                                  });
-                                },
                               ),
                               WidgetRowText(
                                   controller: idHost, title: "Virtualizador"),
@@ -129,7 +124,7 @@ class _CreateServidorState extends State<CreateServidor> {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ColumnForm(
                     title: "Hardware",
@@ -184,7 +179,7 @@ class _CreateServidorState extends State<CreateServidor> {
                     // If the form is valid, display a snackbar. In the real world,
                     // you'd often call a server or save the information in a database.
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
+                      const SnackBar(content: Text('Criando servidor')),
                     );
 
                     int cpus = int.parse(cpu.text);
@@ -198,7 +193,7 @@ class _CreateServidorState extends State<CreateServidor> {
 
                     ServidorModel servidorModel = ServidorModel(
                         img: img.text,
-                        idCompany: cnpj,
+                        idCompany: cnpj.value.text,
                         idHost: idHost.text,
                         host: host,
                         hostname: hostname.text,

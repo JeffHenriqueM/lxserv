@@ -44,38 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAtlTZNdA5cVtSCiEo9Fj5Cw19NpeEj8Ms',
-    appId: '1:923583430228:web:b01c4dfd6f528ceec437c1',
-    messagingSenderId: '923583430228',
-    projectId: 'lxservidores-3799d',
-    authDomain: 'lxservidores-3799d.firebaseapp.com',
-    storageBucket: 'lxservidores-3799d.appspot.com',
-    measurementId: 'G-C3DYHFZ4JX',
+    apiKey: 'AIzaSyDTHPniXWTzdwmxZCXXpzQNyYSKISdidKE',
+    appId: '1:327824562188:web:3f7f5360fe62159ac8f629',
+    messagingSenderId: '327824562188',
+    projectId: 'lxservidores-teste',
+    authDomain: 'lxservidores-teste.firebaseapp.com',
+    storageBucket: 'lxservidores-teste.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBPF8-nlTz_nDOy-5X3yDOfFdfbIicqm_A',
-    appId: '1:923583430228:android:216ba5bc2e78807cc437c1',
-    messagingSenderId: '923583430228',
-    projectId: 'lxservidores-3799d',
-    storageBucket: 'lxservidores-3799d.appspot.com',
+    apiKey: 'AIzaSyAtSvT7LGbkAPMMUuvd1AfkfvPv37vnz44',
+    appId: '1:327824562188:android:26e1ed3bad5de4f1c8f629',
+    messagingSenderId: '327824562188',
+    projectId: 'lxservidores-teste',
+    storageBucket: 'lxservidores-teste.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCMxSx_vXfmEUTarRGJIdzKkdba21ysu8E',
-    appId: '1:923583430228:ios:a46b7e99d15a70e3c437c1',
-    messagingSenderId: '923583430228',
-    projectId: 'lxservidores-3799d',
-    storageBucket: 'lxservidores-3799d.appspot.com',
+    apiKey: 'AIzaSyA6IjwYXuP2pMuhDCdG1o5WRvwqnlv3BDE',
+    appId: '1:327824562188:ios:606bf5fd0d8fd19bc8f629',
+    messagingSenderId: '327824562188',
+    projectId: 'lxservidores-teste',
+    storageBucket: 'lxservidores-teste.appspot.com',
     iosBundleId: 'com.example.lxserv',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCMxSx_vXfmEUTarRGJIdzKkdba21ysu8E',
-    appId: '1:923583430228:ios:fcbeaaf60e753a2cc437c1',
-    messagingSenderId: '923583430228',
-    projectId: 'lxservidores-3799d',
-    storageBucket: 'lxservidores-3799d.appspot.com',
+    apiKey: 'AIzaSyA6IjwYXuP2pMuhDCdG1o5WRvwqnlv3BDE',
+    appId: '1:327824562188:ios:6f676b942f0ef558c8f629',
+    messagingSenderId: '327824562188',
+    projectId: 'lxservidores-teste',
+    storageBucket: 'lxservidores-teste.appspot.com',
     iosBundleId: 'com.example.lxserv.RunnerTests',
   );
 }

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "923583430228",
-    "project_id": "lxservidores-3799d",
-    "storage_bucket": "lxservidores-3799d.appspot.com"
+    "project_number": "327824562188",
+    "project_id": "lxservidores-teste",
+    "storage_bucket": "lxservidores-teste.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:923583430228:android:216ba5bc2e78807cc437c1",
+        "mobilesdk_app_id": "1:327824562188:android:26e1ed3bad5de4f1c8f629",
         "android_client_info": {
           "package_name": "com.example.lxserv"
         }
@@ -15,26 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBPF8-nlTz_nDOy-5X3yDOfFdfbIicqm_A"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:923583430228:android:7a6eb96c4ae35052c437c1",
-        "android_client_info": {
-          "package_name": "com.example.lxservidores"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBPF8-nlTz_nDOy-5X3yDOfFdfbIicqm_A"
+          "current_key": "AIzaSyAtSvT7LGbkAPMMUuvd1AfkfvPv37vnz44"
         }
       ],
       "services": {
